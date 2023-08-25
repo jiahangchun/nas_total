@@ -191,6 +191,8 @@ services:
       - $CONFIG/monitor/node_down.yml:/etc/prometheus/node_down.yml
     ports:
       - "9103:9090"
+    labels:
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
     networks:
       - traefik
     depends_on:
@@ -206,6 +208,8 @@ services:
     volumes:
       - '$DATA/grafana/:/var/lib/grafana'
     restart: always
+    labels:
+      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
     ports:
       - "9104:3000"
     depends_on:
