@@ -31,7 +31,7 @@ services:
     restart: always
     command: flare
     volumes:
-      - $DATA/flare:/app
+      - $CONFIG/flare:/app
     labels:
       - "traefik.http.routers.flare.rule=Host(`flare.jiahangchun.icu`)"
     networks:
