@@ -1,0 +1,219 @@
+version: "3.9"
+services:
+  ## 反向解析服务
+  ddns:
+    container_name: ddns
+    image: jeessy/ddns-go
+    ports: 
+      - 9100:9876
+    restart: always
+    volumes:
+      - $CONFIG/ddns:/root
+    labels:
+      - "traefik.http.routers.ddns.rule=Host(`ddns.jiahangchun.icu`)"
+
+  # 测试服务
+  whoami:
+    container_name: whoami
+    image: containous/whoami
+    restart: always
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
+    networks:
+      - traefik
+    depends_on:
+      - traefik
+
+  # 导航服务
+  flare:
+    container_name: flare
+    image: soulteary/flare
+    restart: always
+    command: flare
+    volumes:
+      - $DATA/flare:/app
+    labels:
+      - "traefik.http.routers.flare.rule=Host(`flare.jiahangchun.icu`)"
+    networks:
+      - traefik
+    depends_on:
+      traefik:
+        condition: service_healthy
+
+  # 网关服务
+  traefik:
+    container_name: traefik
+    image: traefik:v3.0.0-beta3
+    restart: always
+    ports:
+      - 9001:9001
+      - 1443:1443
+    command:
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--ping=true"
+      - "--entrypoints.http.address=:9001"
+      - "--entrypoints.https.address=:1443"
+      - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.addEntryPointsLabels=true"
+      - "--metrics.prometheus.addrouterslabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
+      - "--entryPoints.metrics.address=:8082"
+      - "--metrics.prometheus.entryPoint=metrics"
+      - "--metrics.prometheus.manualrouting=true"
+      - "--accesslog=true"
+      - "--accesslog.format=json"
+      - "--log.filePath=./traefik.log"
+      - "--log.level=DEBUG"
+      - "--accesslog.fields.defaultmode=keep"
+      - "--accesslog.fields.names.ClientUsername=drop"
+      - "--accesslog.fields.headers.defaultmode=keep"
+      - "--accesslog.fields.headers.names.User-Agent=redact"
+      - "--accesslog.fields.headers.names.Authorization=drop"
+      - "--accesslog.fields.headers.names.Content-Type=keep"
+      - "--tracing=true"
+      - "--tracing.serviceName=traefik"
+      - "--tracing.spanNameLimit=150"
+      - "--tracing.elastic=true"
+      - "--tracing.elastic.serverurl=\"http://apm:8200\""
+      - "--tracing.elastic.secrettoken=\"mytoken\""
+      - "--tracing.elastic.serviceenvironment=\"production\""
+    labels:
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
+      - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
+      - "traefik.http.routers.traefik-dashboard-api.rule=Host(`dashboard.jiahangchun.icu`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.traefik-dashboard-api.service=api@internal"
+      - "traefik.http.middlewares.gzip.compress=true"
+      - "traefik.http.routers.traefik-dashboard.middlewares=gzip@docker"
+      - "traefik.http.routers.traefik-dashboard-api.middlewares=gzip@docker"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider --proxy off localhost:8080/ping || exit 1"]
+      interval: 3s
+      retries: 10
+    networks:
+      - traefik
+    depends_on:
+      - ddns
+
+  # 知识库
+  bookstack:
+    image: linuxserver/bookstack
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - DB_HOST=bookstack_db
+      - DB_USER=bookstack
+      - DB_PASS=password
+      - DB_DATABASE=bookstackapp
+      - APP_LANG=zh_CN
+      - APP_URL=http://bookstack.jiahangchun.icu:9001/
+      - WKHTMLTOPDF=/usr/bin/wkhtmltopdf
+      # Mail Setting
+      - MAIL_DRIVER=smtp
+      - MAIL_FROM=jiahangchun@163.com
+      - MAIL_FROM_NAME="XXXX知识库"
+      # SMTP mail options
+      - MAIL_HOST=smtpdm.aliyun.com
+      - MAIL_PORT=465
+      - MAIL_USERNAME=service@example.com
+      - MAIL_PASSWORD=password
+      - MAIL_ENCRYPTION=ssl
+    volumes:
+      - $DATA/bookstack:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bookstack.rule=Host(`bookstack.jiahangchun.icu`)"
+      - "traefik.http.routers.bookstack.entrypoints=http"
+    restart: unless-stopped
+    depends_on:
+      - bookstack_db
+    networks:
+      - traefik
+
+  bookstack_db:
+    image: linuxserver/mariadb
+    container_name: bookstack_db
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=yourdbpass
+      - TZ=Asia/Shanghai
+      - MYSQL_DATABASE=bookstackapp
+      - MYSQL_USER=bookstack
+      - MYSQL_PASSWORD=password
+    volumes:
+      - $DATA/mariadb:/config
+    restart: unless-stopped
+    networks:
+      - traefik
+
+  # 待验证
+  ##########################################监控##############################################
+  node-exporter:
+    image: quay.io/prometheus/node-exporter
+    container_name: node-exporter
+    hostname: node-exporter
+    restart: always
+    ports:
+      - "9101:9100"
+    networks:
+      - traefik
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    hostname: cadvisor
+    restart: always
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "9102:8080"
+    networks:
+      - traefik
+
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    hostname: prometheus
+    restart: always
+    volumes:
+      - $CONFIG/monitor/prometheus.yml:/etc/prometheus/prometheus.yml
+      - $CONFIG/monitor/node_down.yml:/etc/prometheus/node_down.yml
+    ports:
+      - "9103:9090"
+    networks:
+      - traefik
+    depends_on:
+      - cadvisor
+      - node-exporter
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
+    volumes:
+      - '$DATA/grafana/:/var/lib/grafana'
+    restart: always
+    ports:
+      - "9104:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - traefik
+
+
+networks:
+  traefik:
+    external: true
