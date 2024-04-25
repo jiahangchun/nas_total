@@ -153,6 +153,22 @@ services:
     networks:
       - traefik
 
+# docker 私有仓库
+  registry:
+      ports:
+        - 9105:5000
+      volumes:
+        - $DATA/registry:/var/lib/registry
+      restart: always
+      logging:
+        options:
+          max-size: 1g
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.bookstack.rule=Host(`dockerRegistry.jiahangchun.icu`)"
+        - "traefik.http.routers.bookstack.entrypoints=http"
+      image: registry
+
   # 待验证
   ##########################################监控##############################################
   node-exporter:
