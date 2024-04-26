@@ -184,7 +184,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mysql.rule=Host(`mysql.jiahangchun.icu`)"
-      - "traefik.http.routers.mysql.entrypoints=http"
+      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mysql.entrypoints=http"
     environment:
       - "MYSQL_ROOT_PASSWORD=jiahangchun"
       - "MYSQL_DATABASE=jiahangchun"
