@@ -29,5 +29,5 @@ jobs:
           host: '${{ secrets.REMOTE_IP_ADDRESS }}'
           username: '${{ secrets.REMOTE_USER_NAME }}'
           port: '${{ secrets.REMOTE_PORT }}'
-          privateKey: ${{ secrets.REMOTE_RSA}}
+          password: '${{ secrets.REMOTE_PASSWORD }}'
 
