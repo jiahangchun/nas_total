@@ -172,8 +172,6 @@ services:
         - traefik
 
 
-
-# mysql
   mysql:
     restart: always
     image: mysql:5.7.18
