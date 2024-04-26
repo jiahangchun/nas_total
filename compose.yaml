@@ -183,6 +183,7 @@ services:
       - $DATA/mysql/datadir:/var/lib/mysql
       - $DATA/mysql/conf/my.cnf:/etc/my.cnf
       - $DATA/mysql/source:/docker-entrypoint-initdb.d
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --ssl-mode=DISABLED
     labels:
       - "traefik.enable=true"
       - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
