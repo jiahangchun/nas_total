@@ -13,7 +13,7 @@ jobs:
       - name: 切分支
         uses: actions/checkout@v4
       - name: 参数确认
-        uses: echo ${{ secrets.REMOTE_USER_NAME }} ${{ secrets.REMOTE_IP_ADDRESS }} ${{ secrets.REMOTE_RSA }}
+        run: echo ${{ secrets.REMOTE_USER_NAME }} ${{ secrets.REMOTE_IP_ADDRESS }} ${{ secrets.REMOTE_RSA }}
     # 利用action把build好的文件上传到服务器/home/jiahangchun/code/action_file路径下,需要确认此目录已在服务端创建
       - name: 将文件转移到服务器
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
