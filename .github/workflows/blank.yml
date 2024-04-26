@@ -25,7 +25,7 @@ jobs:
       - name: 远程执行命令，将项目启动起来
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: echo '${{ secrets.REMOTE_PASSWORD }}' | sudo -S sh ${{ secrets.REMOTE_FILE_TARGET }}/start.sh
+          command: echo '${{ secrets.REMOTE_PASSWORD }}' | sudo -S sh start.sh
           host: '${{ secrets.REMOTE_IP_ADDRESS }}'
           username: '${{ secrets.REMOTE_USER_NAME }}'
           port: '${{ secrets.REMOTE_PORT }}'
