@@ -20,7 +20,6 @@ jobs:
         with:  
           username: '${{ secrets.REMOTE_USER_NAME }}'  
           server: '${{ secrets.REMOTE_IP_ADDRESS }}'
-          ssh_private_key: ${{ secrets.REMOTE_RSA }}
           port: '${{ secrets.REMOTE_PORT }}'
           password: '${{ secrets.REMOTE_PASSWORD }}'
           local_path: './*'
