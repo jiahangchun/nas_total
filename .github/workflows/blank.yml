@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: 切分支
         uses: actions/checkout@v4
-      - name: 参数确认
-        run: echo ${{ secrets.REMOTE_USER_NAME }} ${{ secrets.REMOTE_USER_NAME1 }}
     # 利用action把build好的文件上传到服务器/home/jiahangchun/code/action_file路径下,需要确认此目录已在服务端创建
       - name: 将文件转移到服务器
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
@@ -24,4 +22,12 @@ jobs:
           password: '${{ secrets.REMOTE_PASSWORD }}'
           local_path: './*'
           remote_path: '${{ secrets.REMOTE_FILE_TARGET }}'
+      - name: 远程执行命令，将项目启动起来
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: ls -al
+          host: '${{ secrets.REMOTE_IP_ADDRESS }}'
+          username: '${{ secrets.REMOTE_USER_NAME }}'
+          port: '${{ secrets.REMOTE_PORT }}'
+          privateKey: ${{ secrets.REMOTE_RSA}}
 
