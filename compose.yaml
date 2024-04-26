@@ -165,9 +165,29 @@ services:
           max-size: 1g
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.bookstack.rule=Host(`dockerRegistry.jiahangchun.icu`)"
-        - "traefik.http.routers.bookstack.entrypoints=http"
+        - "traefik.http.routers.dockerRegistry.rule=Host(`dockerRegistry.jiahangchun.icu`)"
+        - "traefik.http.routers.dockerRegistry.entrypoints=http"
       image: registry
+# mysql
+  mysql:
+    restart: always
+    image: mysql:5.7.18
+    container_name: mysql-lable
+    volumes:
+      - $DATA/mysql/mysql/mydir:/mydir
+      - $DATA/mysql/datadir:/var/lib/mysql
+      - $DATA/mysql/conf/my.cnf:/etc/my.cnf
+      - $DATA/mysql/source:/docker-entrypoint-initdb.d
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mysql.rule=Host(`mysql.jiahangchun.icu`)"
+      - "traefik.http.routers.mysql.entrypoints=http"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=jiahangchun"
+      - "MYSQL_DATABASE=jiahangchun"
+      - "TZ=Asia/Shanghai"
+    ports:
+      - 9106:3306
 
   # 待验证
   ##########################################监控##############################################
