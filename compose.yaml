@@ -183,7 +183,6 @@ services:
       - $DATA/mysql/source:/docker-entrypoint-initdb.d
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mysql.rule=Host(`mysql.jiahangchun.icu`)"
       - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
       - "traefik.tcp.routers.mysql.entrypoints=http"
     environment:
