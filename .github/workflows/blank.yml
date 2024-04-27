@@ -23,7 +23,7 @@ jobs:
           local_path: './*'
           remote_path: '${{ secrets.REMOTE_FILE_TARGET }}'
       - name: 启动项目
-        run: sshpass -p ${{ secrets.REMOTE_PASSWORD }} ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER_NAME }}@${{ secrets.REMOTE_IP_ADDRESS }} "cd ${{ secrets.REMOTE_FILE_TARGET }} && echo '${{ secrets.REMOTE_PASSWORD }}' | sudo -S sh start.sh";exec bash
+        run: sshpass -p ${{ secrets.REMOTE_PASSWORD }} ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER_NAME }}@${{ secrets.REMOTE_IP_ADDRESS }} "cd ${{ secrets.REMOTE_FILE_TARGET }} && echo '${{ secrets.REMOTE_PASSWORD }}' | sudo -S sh start.sh && exec bash"
       # - name: 远程执行命令，将项目启动起来
       #   uses: garygrossgarten/github-action-ssh@release
       #   with:
