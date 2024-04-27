@@ -203,8 +203,6 @@ services:
 # docker控制面板
   portainer:
     image: portainer/portainer
-    ports:
-      - 9107:9000
     labels:
       - "traefik.http.routers.portainer.rule=Host(`portainer.jiahangchun.icu`)"
     volumes:
