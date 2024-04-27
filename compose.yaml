@@ -138,6 +138,9 @@ services:
     networks:
       - traefik
 
+
+
+
   bookstack_db:
     image: linuxserver/mariadb
     container_name: bookstack_db
@@ -194,6 +197,21 @@ services:
       - "TZ=Asia/Shanghai"
     ports:
       - 9106:3306
+    networks:
+      - traefik
+
+# docker控制面板
+  portainer:
+    image: portainer/portainer
+    ports:
+      - 9107:9000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.jiahangchun.icu`)"
+      - "traefik.http.routers.portainer.entrypoints=http"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
     networks:
       - traefik
 
