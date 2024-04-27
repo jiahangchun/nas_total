@@ -206,13 +206,13 @@ services:
     ports:
       - 9107:9000
     labels:
-      - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.jiahangchun.icu`)"
-      - "traefik.http.routers.portainer.entrypoints=http"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
     networks:
+      - traefik
+    depends_on:
       - traefik
 
   # 待验证
