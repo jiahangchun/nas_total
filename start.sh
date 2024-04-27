@@ -9,5 +9,6 @@ echo "配置地址："$CONFIG
 chmod -R 777 $DATA
 echo "数据地址："$DATA
 
-echo "用户""$USER""开始部署docker"
+echo "用户 ""$USER"" 开始部署docker"
 docker-compose -f ./compose.yaml up -d
+exit;
