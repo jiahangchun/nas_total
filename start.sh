@@ -1,4 +1,6 @@
+#!/bin/bash
 echo "用户""$USER""开始部署docker"
+sudo su
 
 echo "开始执行部署程序"
 # shellcheck disable=SC2232
