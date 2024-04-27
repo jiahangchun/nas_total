@@ -26,7 +26,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
           # 先进入主目录，然后将密码传给 sh ,最后启动
-          command: cd '${{ secrets.REMOTE_FILE_TARGET }}' && echo '${{ secrets.REMOTE_PASSWORD }}' | sh start.sh
+          command: cd '${{ secrets.REMOTE_FILE_TARGET }}' && echo '${{ secrets.REMOTE_PASSWORD }}' | sh -S start.sh
           host: '${{ secrets.REMOTE_IP_ADDRESS }}'
           username: '${{ secrets.REMOTE_USER_NAME }}'
           port: '${{ secrets.REMOTE_PORT }}'
