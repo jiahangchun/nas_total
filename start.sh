@@ -7,4 +7,4 @@ sudo chmod -R 777 $DATA
 echo $DATA
 
 
-docker-compose -f ./compose.yaml up -d
+sudo docker-compose -f ./compose.yaml up -d
