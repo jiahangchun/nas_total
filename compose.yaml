@@ -203,9 +203,9 @@ services:
 # docker控制面板
   portainer-ee:
     ports:
-      - 9108:8000
+      - 9108:8000 # 官方文档上的地址是这个
       - 9109:9443
-      - 9110:9000
+      - 9110:9000 #这个才是webUI的端口
     container_name: portainer
     restart: always
     volumes:
@@ -214,6 +214,7 @@ services:
     image: portainer/portainer-ee:latest
     labels:
       - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
+      - "traefik.portaineree.port=9110"
     networks:
       - traefik
     depends_on:
