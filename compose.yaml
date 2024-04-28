@@ -203,8 +203,8 @@ services:
 # docker控制面板
   portainer-ee:
     ports:
-      - 9107:8000
-      - 9108:9443
+      - 9108:8000
+      - 9109:9443
     container_name: portainer
     restart: always
     volumes:
@@ -212,7 +212,7 @@ services:
       - $DATA/portainer:/data
     image: portainer/portainer-ee:latest
     labels:
-      - "traefik.http.routers.portainer.rule=Host(`portainer.jiahangchun.icu`)"
+      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
     networks:
       - traefik
     depends_on:
