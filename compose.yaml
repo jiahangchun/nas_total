@@ -214,8 +214,14 @@ services:
     image: portainer/portainer-ee:latest
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
-      - "traefik.http.services.portaineree.loadbalancer.server.port=9110"
+      - "traefik.http.routers.frontend.rule=Host(`portainer.jiahangchun.icu`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=9110"
+      - "traefik.http.routers.frontend.entrypoints=http"
+      - "traefik.http.routers.frontend.service=frontend"
+      - "traefik.http.routers.edge.rule=Host(`edge.jiahangchun.icu`)"
+      - "traefik.http.routers.edge.entrypoints=http"
+      - "traefik.http.services.edge.loadbalancer.server.port=9108"
+      - "traefik.http.routers.edge.service=edge"
     networks:
       - traefik
     depends_on:
