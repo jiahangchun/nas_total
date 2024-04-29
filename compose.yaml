@@ -213,8 +213,9 @@ services:
       - $DATA/portainer:/data
     image: portainer/portainer-ee:latest
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
-      - "traefik.portaineree.port=9110"
+      - "traefik.http.services.portaineree.loadbalancer.server.port=9110"
     networks:
       - traefik
     depends_on:
