@@ -188,7 +188,7 @@ services:
       - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
     labels:
       - "traefik.enable=true"
-      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`) && HostSNI(`mysql.jiahangchun.icu`)"
+      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`) || HostSNI(`mysql.jiahangchun.icu`)"
       - "traefik.tcp.routers.mysql.entrypoints=mysql"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
