@@ -245,7 +245,7 @@ services:
       - "traefik.http.routers.frontend.service=frontend"
 
       # Edge
-      - "traefik.http.routers.edge.rule=Host(`ceedge.yourdomain.com`)"
+      - "traefik.http.routers.edge.rule=Host(`ceedge.jiahangchun.icu`)"
       - "traefik.http.routers.edge.entrypoints=http"
       - "traefik.http.services.edge.loadbalancer.server.port=8000"
       - "traefik.http.routers.edge.service=edge"
