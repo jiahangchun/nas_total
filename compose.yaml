@@ -208,6 +208,7 @@ services:
       - 9110:9000 #这个才是webUI的端口
     container_name: portainer
     restart: always
+    command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - $DATA/portainer:/data
