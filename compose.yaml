@@ -216,6 +216,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
+      # 访问 http://portaineree.jiahangchun.icu:9001/ 即可访问，这边端口是 未被映射出来的端口,也就是原始端口
+      # 这边还需要手动 指定端口，可能 portainer 暴露了多个端口，导致 traefik listener文件 随机选取了一个
+      # 参考 官方文档：https://doc.traefik.io/traefik/providers/docker/
       - "traefik.http.services.portaineree.loadbalancer.server.port=9000"
     networks:
       - traefik
