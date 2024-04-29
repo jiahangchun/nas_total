@@ -201,28 +201,53 @@ services:
       - traefik
 
 # docker控制面板
-  portainer-ee:
-    ports:
-      - 9108:8000 # 官方文档上的地址是这个
-      - 9109:9443
-      - 9110:9000 #这个才是webUI的端口
-    container_name: portainer
-    restart: always
+#  portainer-ee:
+#    ports:
+#      - 9108:8000 # 官方文档上的地址是这个
+#      - 9109:9443
+#      - 9110:9000 #这个才是webUI的端口
+#    container_name: portainer
+#    restart: always
+#    command: -H unix:///var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - $DATA/portainer:/data
+#    image: portainer/portainer-ee:latest
+#    labels:
+#      - "traefik.enable=true"
+#      #- "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
+#      #- "traefik.http.services.portaineree.loadbalancer.server.port=9110"
+#
+#      - "traefik.http.routers.frontend.rule=Host(`portainer.jiahangchun.icu`)"
+#      - "traefik.http.services.frontend.loadbalancer.server.port=9110"
+#      - "traefik.http.routers.frontend.service=frontend"
+#      - "traefik.http.routers.edge.rule=Host(`edge.jiahangchun.icu`)"
+#      - "traefik.http.services.edge.loadbalancer.server.port=9108"
+#      - "traefik.http.routers.edge.service=edge"
+#    networks:
+#      - traefik
+#    depends_on:
+#      - traefik
+
+  portainerce:
+    image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - $DATA/portainer:/data
-    image: portainer/portainer-ee:latest
     labels:
+      # Frontend
       - "traefik.enable=true"
-      #- "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
-      #- "traefik.http.services.portaineree.loadbalancer.server.port=9110"
-
-      - "traefik.http.routers.frontend.rule=Host(`portainer.jiahangchun.icu`)"
-      - "traefik.http.services.frontend.loadbalancer.server.port=9110"
+      - "traefik.http.routers.frontend.rule=Host(`ceportainer.jiahangchun.icu`)"
+      - "traefik.http.routers.frontend.entrypoints=http"
+      - "traefik.http.services.frontend.loadbalancer.server.port=9000"
       - "traefik.http.routers.frontend.service=frontend"
-      - "traefik.http.routers.edge.rule=Host(`edge.jiahangchun.icu`)"
-      - "traefik.http.services.edge.loadbalancer.server.port=9108"
+
+      # Edge
+      - "traefik.http.routers.edge.rule=Host(`ceedge.yourdomain.com`)"
+      - "traefik.http.routers.edge.entrypoints=http"
+      - "traefik.http.services.edge.loadbalancer.server.port=8000"
       - "traefik.http.routers.edge.service=edge"
     networks:
       - traefik
