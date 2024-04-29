@@ -200,27 +200,27 @@ services:
     networks:
       - traefik
 
-   docker控制面板
-    portainer-ee:
-      ports:
-        - 9108:8000 # 官方文档上的地址是这个
-        - 9109:9443
-        - 9110:9000 #这个才是webUI的端口
-      container_name: portainer
-      restart: always
-      command: -H unix:///var/run/docker.sock
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - $DATA/portainer:/data
-      image: portainer/portainer-ee:latest
-      labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
-        - "traefik.http.services.portaineree.loadbalancer.server.port=9110"
-      networks:
-        - traefik
-      depends_on:
-        - traefik
+  #docker控制面板
+  portainer-ee:
+    ports:
+      - 9108:8000 # 官方文档上的地址是这个
+      - 9109:9443
+      - 9110:9000 #这个才是webUI的端口
+    container_name: portainer
+    restart: always
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $DATA/portainer:/data
+    image: portainer/portainer-ee:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
+      - "traefik.http.services.portaineree.loadbalancer.server.port=9110"
+    networks:
+      - traefik
+    depends_on:
+      - traefik
 
 
   # 待验证
