@@ -234,9 +234,9 @@ services:
     command: -H unix:///var/run/docker.sock
     restart: always
     ports:
-      - 9108:8000 # 官方文档上的地址是这个
-      - 9109:9443
-      - 9110:9000 #这个才是webUI的端口
+      - 9111:8000 # 官方文档上的地址是这个
+      - 9112:9443
+      - 9113:9000 #这个才是webUI的端口
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - $DATA/portainer:/data
@@ -245,13 +245,13 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`ceportainer.jiahangchun.icu`)"
       - "traefik.http.routers.frontend.entrypoints=http"
-      - "traefik.http.services.frontend.loadbalancer.server.port=9110"
+      - "traefik.http.services.frontend.loadbalancer.server.port=9113"
       - "traefik.http.routers.frontend.service=frontend"
 
       # Edge
       - "traefik.http.routers.edge.rule=Host(`ceedge.jiahangchun.icu`)"
       - "traefik.http.routers.edge.entrypoints=http"
-      - "traefik.http.services.edge.loadbalancer.server.port=9108"
+      - "traefik.http.services.edge.loadbalancer.server.port=9111"
       - "traefik.http.routers.edge.service=edge"
     networks:
       - traefik
