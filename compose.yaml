@@ -203,10 +203,6 @@ services:
   # 这边还需要手动 指定端口，可能 portainer 暴露了多个端口，导致 traefik listener文件 随机选取了一个
   # 参考 官方文档：https://doc.traefik.io/traefik/providers/docker/
   portainer-ee:
-    ports:
-      - 9108:8000 # 官方文档上的地址是这个
-      - 9109:9443
-      - 9110:9000 #这个才是webUI的端口
     container_name: portainer
     restart: always
     command: -H unix:///var/run/docker.sock
