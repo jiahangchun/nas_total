@@ -182,10 +182,13 @@ services:
     image: mysql:8.0.18
     container_name: mysql-lable
     volumes:
-      - $DATA/mysql/mysql/mydir:/mydir
-      - $DATA/mysql/datadir:/var/lib/mysql
+      - $DATA/mysql/mydir:/mydir
       - $DATA/mysql/conf/my.cnf:/etc/my.cnf
       - $DATA/mysql/source:/docker-entrypoint-initdb.d
+      - $DATA/mysql/mysqld:/var/run/mysqld
+      - $DATA/mysql/db:/var/lib/mysql
+      - $DATA/mysql/conf:/etc/mysql/conf.d
+      - $DATA/mysql/files:/var/lib/mysql-files
     labels:
       - "traefik.enable=true"
       - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
