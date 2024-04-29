@@ -56,7 +56,7 @@ services:
       - "--ping=true"
       - "--entrypoints.http.address=:9001"
       - "--entrypoints.https.address=:1443"
-      - "--entrypoints.tcp.address=:3307"
+      - "--entrypoints.mysql.address=:3307"
       - "--providers.docker=true"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--metrics.prometheus=true"
@@ -188,8 +188,8 @@ services:
       - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mysql.rule=HostSNI(`mysql.jiahangchun.icu`)"
-      - "traefik.http.routers.mysql.entrypoints=http"
+      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mysql.entrypoints=mysql"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       - MYSQL_ROOT_PASSWORD=123456 # root用户密码
