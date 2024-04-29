@@ -182,22 +182,19 @@ services:
     image: mysql:8.0.18
     container_name: mysql-lable
     volumes:
-      - $DATA/mysql/mydir:/mydir
-      - $DATA/mysql/conf/my.cnf:/etc/my.cnf
-      - $DATA/mysql/source:/docker-entrypoint-initdb.d
-      - $DATA/mysql/mysqld:/var/run/mysqld
-      - $DATA/mysql/db:/var/lib/mysql
-      - $DATA/mysql/conf:/etc/mysql/conf.d
-      - $DATA/mysql/files:/var/lib/mysql-files
+      - $DATA/mysql8/log:/var/log/mysql # 映射日志目录，宿主机:容器
+      - $DATA/mysql8/data:/var/lib/mysql # 映射数据目录，宿主机:容器
+      - $CONFIG/mysql/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机:容器
+      - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
     labels:
       - "traefik.enable=true"
       - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
       - "traefik.tcp.routers.mysql.entrypoints=tcp"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      - "MYSQL_ROOT_PASSWORD=jiahangchun"
-      - "MYSQL_DATABASE=jiahangchun"
-      - "TZ=Asia/Shanghai"
+      - MYSQL_ROOT_PASSWORD=123456 # root用户密码
+      - MYSQL_DATABASE=jiahangchun
+      - TZ=Asia/Shanghai
     ports:
       - 9106:3306
     networks:
