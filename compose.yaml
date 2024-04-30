@@ -158,23 +158,24 @@ services:
     networks:
       - traefik
 
-  # docker 私有仓库
-  registry:
-    ports:
-      - 9105:5000
-    volumes:
-      - $DATA/registry:/var/lib/registry
-    restart: always
-    logging:
-      options:
-        max-size: 1g
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dockerRegistry.rule=Host(`dockerRegistry.jiahangchun.icu`)"
-      - "traefik.http.routers.dockerRegistry.entrypoints=http"
-    image: registry
-    networks:
-      - traefik
+  # docker 私有仓库 直接使用 nexus3 代替
+  # https://docker-practice.github.io/zh-cn/repository/registry.html
+#  registry:
+#    ports:
+#      - 9105:5000
+#    volumes:
+#      - $DATA/registry:/var/lib/registry
+#    restart: always
+#    logging:
+#      options:
+#        max-size: 1g
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.dockerRegistry.rule=Host(`dockerRegistry.jiahangchun.icu`)"
+#      - "traefik.http.routers.dockerRegistry.entrypoints=http"
+#    image: registry
+#    networks:
+#      - traefik
 
 
   mysql:
