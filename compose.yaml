@@ -229,6 +229,8 @@ services:
     volumes:
       - $DATA/nexus/nexus-data:/nexus-data
     restart: always
+    ports:
+      - 9112:8081
     networks:
       - traefik
     depends_on:
