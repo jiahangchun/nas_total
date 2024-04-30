@@ -219,6 +219,20 @@ services:
     depends_on:
       - traefik
 
+  #快照库
+  nexus:
+    image: sonatype/nexus3
+    labels:
+      - "traefik.http.routers.nexus.rule=Host(`nexus.jiahangchun.icu`)"
+    volumes:
+      - $DATA/nexus/nexus-data:/nexus-data
+    restart: always
+    networks:
+      - traefik
+    depends_on:
+      - traefik
+
+
 
   # 待验证
   ##########################################监控##############################################
