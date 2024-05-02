@@ -256,7 +256,7 @@ services:
       - "traefik.http.services.weixin.loadbalancer.server.port=8080"
     networks:
       - traefik
-    #restart: always
+    restart: always
 
 
   # 待验证
