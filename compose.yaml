@@ -258,7 +258,7 @@ services:
       - traefik
     restart: always
 
-  # http://127.0.0.1:9114/nacos
+  #  http://127.0.0.1:9114/nacos
   nacos:
     image: nacos/nacos-server:v2.3.2
     container_name: nacos-standalone
