@@ -268,7 +268,6 @@ services:
     container_name: nacos-standalone
     volumes:
       - $DATA/nacos/standalone-logs/:/home/nacos/logs
-      #- ./properties/application.properties:/home/nacos/conf/application.properties
     labels:
       # 不暴露外网
       #- "traefik.http.routers.nacos.rule=Host(`nacos.jiahangchun.icu`)"
