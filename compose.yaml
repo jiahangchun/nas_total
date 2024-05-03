@@ -272,10 +272,6 @@ services:
     volumes:
       - $DATA/nacos/standalone-logs/:/home/nacos/logs
       - $CONFIG/nacos/conf:/home/nacos/conf
-    labels:
-      #- "traefik.http.routers.nacos.rule=Host(`nacos.jiahangchun.icu`)"
-      #- "traefik.http.services.nacos.loadbalancer.server.port=8848"
-      - "traefik.enable=true"
     ports:
       - "9114:8848"
       - "9115:9848"
