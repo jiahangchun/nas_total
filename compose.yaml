@@ -258,7 +258,7 @@ services:
       - traefik
     restart: always
 
-
+  # http://127.0.0.1:9114/nacos
   nacos:
     image: nacos/nacos-server:v2.3.2
     container_name: nacos-standalone
@@ -267,9 +267,15 @@ services:
       - MODE=standalone
       - NACOS_AUTH_IDENTITY_KEY=serverIdentity
       - NACOS_AUTH_IDENTITY_VALUE=security
+      - NACOS_AUTH_ENABLE=true
       - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
     volumes:
-      - $DATA/nacos-standalone-logs/:/home/nacos/logs
+      - $DATA/nacos/standalone-logs/:/home/nacos/logs
+      - $CONFIG/nacos/conf:/home/nacos/conf
+    labels:
+      - "traefik.http.routers.nacos.rule=Host(`nacos.jiahangchun.icu`)"
+      - "traefik.http.services.nacos.loadbalancer.server.port=8848"
+      - "traefik.enable=true"
     ports:
       - "9114:8848"
       - "9115:9848"
@@ -284,6 +290,8 @@ services:
     container_name: node-exporter
     hostname: node-exporter
     restart: always
+    labels:
+      - "traefik.http.routers.exporter.rule=Host(`exporter.jiahangchun.icu`)"
     ports:
       - "9101:9100"
     networks:
