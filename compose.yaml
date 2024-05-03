@@ -259,6 +259,24 @@ services:
     restart: always
 
 
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: nacos-standalone
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - NACOS_AUTH_IDENTITY_KEY=serverIdentity
+      - NACOS_AUTH_IDENTITY_VALUE=security
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+    volumes:
+      - $DATA/nacos-standalone-logs/:/home/nacos/logs
+    ports:
+      - "9114:8848"
+      - "9115:9848"
+    networks:
+      - traefik
+    restart: always
+
   # 待验证
   ##########################################监控##############################################
   node-exporter:
@@ -288,41 +306,42 @@ services:
 #    networks:
 #      - traefik
 # 需要先安装 cadvisor
-#  prometheus:
-#    image: prom/prometheus
-#    container_name: prometheus
-#    hostname: prometheus
-#    restart: always
-#    volumes:
-#      - $CONFIG/monitor/prometheus.yml:/etc/prometheus/prometheus.yml
-#      - $CONFIG/monitor/node_down.yml:/etc/prometheus/node_down.yml
-#    ports:
-#      - "9103:9090"
-#    labels:
-#      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
-#    networks:
-#      - traefik
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    hostname: prometheus
+    restart: always
+    volumes:
+      - $CONFIG/monitor/prometheus.yml:/etc/prometheus/prometheus.yml
+      - $CONFIG/monitor/node_down.yml:/etc/prometheus/node_down.yml
+    ports:
+      - "9103:9090"
+    labels:
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
+    networks:
+      - traefik
 #    depends_on:
 #      - cadvisor
 #      - node-exporter
-#
-#  grafana:
-#    image: grafana/grafana
-#    container_name: grafana
-#    hostname: grafana
-#    environment:
-#      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
-#    volumes:
-#      - '$DATA/grafana/:/var/lib/grafana'
-#    restart: always
-#    labels:
-#      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
-#    ports:
-#      - "9104:3000"
-#    depends_on:
-#      - prometheus
-#    networks:
-#      - traefik
+
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
+    volumes:
+      - '$DATA/grafana/:/var/lib/grafana'
+    restart: always
+    labels:
+      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
+    ports:
+      - "9104:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - traefik
 
 
 networks:
