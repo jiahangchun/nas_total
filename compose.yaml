@@ -277,9 +277,10 @@ services:
     # - ./env/nacos-standlone-mysql.env
     ports:
       - "9114:8848"
-      - "9115:9848"
       # 神經病 nacos 默認開啓端口
       - "10114:9848"
+      - "10115:9849"
+      - "8115:7848"
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
