@@ -278,6 +278,8 @@ services:
     ports:
       - "9114:8848"
       - "9115:9848"
+      # 神經病 nacos 默認開啓端口
+      - "10114:9848"
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
