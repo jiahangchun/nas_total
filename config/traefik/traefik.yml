@@ -1,0 +1,45 @@
+## STATIC CONFIGURATION
+log:
+  level: DEBUG
+  format: json
+  filePath: ./traefik.log
+
+
+api:
+  insecure: true
+  dashboard: true
+
+# 开放端口
+entryPoints:
+  http:
+    address: ":9001"
+  https:
+    address: ":1443"
+  mysql:
+    address: ":3307"
+  metrics:
+    address: ":8082"
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+    entryPoint: metrics
+    manualRouting: true
+
+tracing:
+  serviceName: traefikTracing
+  spanNameLimit: 150
+  elastic:
+    serverURL: http://apm:8200
+    secretToken: myToken
+    serviceEnvironment: prod
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+
+# 直接指定具体的 ip 地址 ：https://github.com/DoTheEvo/Traefik-v2-examples
