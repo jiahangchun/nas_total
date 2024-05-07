@@ -11,5 +11,5 @@ chmod -R 777 $DATA
 echo "数据地址："$DATA
 
 echo "用户 ""$USER"" 开始部署docker"
-docker-compose -f ./compose.yaml up -d
+docker-compose -f ./compose.yaml  --env-file=$CONFIG/.env up -d
 exit;
