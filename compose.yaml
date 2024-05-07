@@ -63,6 +63,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
+      - $CONFIG/acme/acme.json:/acme.json"
     environment:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
       - TENCENTCLOUD_SECRET_KEY=${SECRET_KEY}
