@@ -43,7 +43,7 @@ services:
   # 网关服务
   traefik:
     container_name: traefik
-    image: traefik:v3.0.0-beta3
+    image: traefik:v3.0
     restart: always
     ports:
       - 9001:9001
