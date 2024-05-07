@@ -15,6 +15,14 @@ entryPoints:
     address: ":9001"
   https:
     address: ":1443"
+    http:
+      tls:
+        certResolver: default
+        domains:
+          - main: "www.jiahangchun.icu"
+            sans:
+              - "whoami.jiahangchun.icu"
+              - "*.jiahangchun.icu"
   mysql:
     address: ":3307"
   ping:
