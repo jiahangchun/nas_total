@@ -17,6 +17,11 @@ entryPoints:
     address: ":1443"
   mysql:
     address: ":3307"
+  ping:
+    address: ":8080"
+
+ping:
+  entryPoint: "ping"
 
 providers:
   docker:
