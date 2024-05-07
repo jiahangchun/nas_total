@@ -33,6 +33,6 @@ certificatesResolvers:
   default:
     acme:
       email: jiahangchun@163.com
-      storage: /home/jiahangchun/jiahangchun_config/traefik/certificates/acme.json
+      storage: /etc/traefik/certificates/acme.json
       dnsChallenge:
         provider: tencentcloud
