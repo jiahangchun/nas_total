@@ -49,41 +49,9 @@ services:
       - 9001:9001
       - 1443:1443
       - 3307:3307
-    command:
-      - "--api=true"
-      - "--api.dashboard=true"
-      - "--api.insecure=true"
-      - "--ping=true"
-      - "--entrypoints.http.address=:9001"
-      - "--entrypoints.https.address=:1443"
-      - "--entrypoints.mysql.address=:3307"
-      - "--providers.docker=true"
-      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--metrics.prometheus=true"
-      - "--metrics.prometheus.addEntryPointsLabels=true"
-      - "--metrics.prometheus.addrouterslabels=true"
-      - "--metrics.prometheus.addServicesLabels=true"
-      - "--entryPoints.metrics.address=:8082"
-      - "--metrics.prometheus.entryPoint=metrics"
-      - "--metrics.prometheus.manualrouting=true"
-      - "--accesslog=true"
-      - "--accesslog.format=json"
-      - "--log.filePath=./traefik.log"
-      - "--log.level=DEBUG"
-      - "--accesslog.fields.defaultmode=keep"
-      - "--accesslog.fields.names.ClientUsername=drop"
-      - "--accesslog.fields.headers.defaultmode=keep"
-      - "--accesslog.fields.headers.names.User-Agent=redact"
-      - "--accesslog.fields.headers.names.Authorization=drop"
-      - "--accesslog.fields.headers.names.Content-Type=keep"
-      - "--tracing=true"
-      - "--tracing.serviceName=traefik"
-      - "--tracing.spanNameLimit=150"
-      - "--tracing.elastic=true"
-      - "--tracing.elastic.serverurl=\"http://apm:8200\""
-      - "--tracing.elastic.secrettoken=\"mytoken\""
-      - "--tracing.elastic.serviceenvironment=\"production\""
     labels:
+      # 新增配置 traefik.yml https://github.com/DoTheEvo/Traefik-v2-examples
+      - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
       - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
       - "traefik.http.routers.traefik-dashboard-api.rule=Host(`dashboard.jiahangchun.icu`) && PathPrefix(`/api`)"
@@ -93,6 +61,7 @@ services:
       - "traefik.http.routers.traefik-dashboard-api.middlewares=gzip@docker"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yml:/traefik.yml:ro
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8080/ping || exit 1" ]
       interval: 3s
