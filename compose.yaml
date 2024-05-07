@@ -43,7 +43,7 @@ services:
   # 网关服务
   traefik:
     container_name: traefik
-    image: traefik:v3.0
+    image: traefik:v3.0.0-beta3
     restart: always
     command:
       - "--api=true"
@@ -93,7 +93,7 @@ services:
       - "traefik.http.routers.traefik-dashboard-api.middlewares=gzip@docker"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      #- ./traefik.yml:/traefik.yml:ro
+      #- ./config/traefik/traefik.yml:/traefik.yml:ro
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8080/ping || exit 1" ]
       interval: 3s
