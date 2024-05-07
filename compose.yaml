@@ -21,6 +21,7 @@ services:
       - 9001:9001
       - 1443:1443
       - 3307:3307
+    command: ["/bin/bash", "-c", "chmod 600 /acme.json"]
     labels:
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
       - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
