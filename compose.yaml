@@ -45,6 +45,11 @@ services:
     container_name: traefik
     image: traefik:v3.0
     restart: always
+    command:
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--ping=true"
     ports:
       - 9001:9001
       - 1443:1443
