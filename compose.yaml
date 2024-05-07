@@ -71,7 +71,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
     healthcheck:
-      test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8080/ping || exit 1" ]
+      test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8082/ping || exit 1" ]
       interval: 3s
       retries: 10
     networks:
