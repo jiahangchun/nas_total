@@ -41,10 +41,7 @@ services:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
       - TENCENTCLOUD_SECRET_KEY=${SECRET_KEY}
 #    command: [ "CMD-SHELL", "chmod 600 /acme.json" ]
-    command:
-      - /bin/sh
-      - -c
-      - chmod 600 /acme.json
+    command: ["sh", "-c", "/app/start.sh"]
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8082/ping || exit 1" ]
       interval: 3s
