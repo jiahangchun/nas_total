@@ -9,6 +9,9 @@ api:
   insecure: true
   dashboard: true
 
+ping:
+  entryPoint: "ping"
+
 # 开放端口
 entryPoints:
   http:
@@ -19,6 +22,8 @@ entryPoints:
     address: ":3307"
   metrics:
     address: ":8082"
+  ping:
+    address: ":8080"
 
 providers:
   docker:
