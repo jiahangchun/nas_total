@@ -50,8 +50,6 @@ services:
       - 1443:1443
       - 3307:3307
     labels:
-      # 新增配置 traefik.yml https://github.com/DoTheEvo/Traefik-v2-examples
-      - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
       - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
       - "traefik.http.routers.traefik-dashboard-api.rule=Host(`dashboard.jiahangchun.icu`) && PathPrefix(`/api`)"
