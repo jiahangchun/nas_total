@@ -50,6 +50,7 @@ services:
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--ping=true"
+      - "--providers.docker=true"
     ports:
       - 9001:9001
       - 1443:1443

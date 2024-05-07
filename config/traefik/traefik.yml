@@ -9,9 +9,6 @@ api:
   insecure: true
   dashboard: true
 
-ping:
-  entryPoint: "ping"
-
 # 开放端口
 entryPoints:
   http:
@@ -20,15 +17,10 @@ entryPoints:
     address: ":1443"
   mysql:
     address: ":3307"
-  metrics:
-    address: ":8082"
-  ping:
-    address: ":8080"
 
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
-    exposedByDefault: true
 
 
 # 直接指定具体的 ip 地址 ：https://github.com/DoTheEvo/Traefik-v2-examples
