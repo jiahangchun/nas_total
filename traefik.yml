@@ -29,4 +29,10 @@ providers:
     exposedByDefault: true
 
 
-# 直接指定具体的 ip 地址 ：https://github.com/DoTheEvo/Traefik-v2-examples
+certificatesResolvers:
+  default:
+    acme:
+      email: jiahangchun@163.com
+      storage: /home/jiahangchun/jiahangchun_data/traefik/certificates/acme.json
+      dnsChallenge:
+        provider: tencentcloud

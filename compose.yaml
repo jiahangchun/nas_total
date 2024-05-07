@@ -19,6 +19,9 @@ services:
     restart: always
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
+      - "traefik.http.routers.whoami.entrypoints=https"
+      - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.tls.certresolver=default"
     networks:
       - traefik
     depends_on:
@@ -60,6 +63,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
+    environment:
+      - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
+      - TENCENTCLOUD_SECRET_KEY=${SECRET_KEY}
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8082/ping || exit 1" ]
       interval: 3s
