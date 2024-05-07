@@ -50,7 +50,11 @@ services:
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--ping=true"
+      - "--entrypoints.http.address=:9001"
+      - "--entrypoints.https.address=:1443"
+      - "--entrypoints.mysql.address=:3307"
       - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
     ports:
       - 9001:9001
       - 1443:1443
