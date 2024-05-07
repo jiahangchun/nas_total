@@ -21,7 +21,6 @@ services:
       - 9001:9001
       - 1443:1443
       - 3307:3307
-    command: ["/bin/bash", "-c", "chmod 600 /acme.json"]
     labels:
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
       - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
@@ -33,7 +32,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
-      - $CONFIG/acme/acme.json:/acme.json
+      # 会产生权限覆盖问题，需要600权限
+      #- $CONFIG/acme/acme.json:/acme.json
     environment:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
       - TENCENTCLOUD_SECRET_KEY=${SECRET_KEY}
