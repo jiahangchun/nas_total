@@ -60,10 +60,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
-    healthcheck:
-      test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8080/ping || exit 1" ]
-      interval: 3s
-      retries: 10
     networks:
       - traefik
     depends_on:
