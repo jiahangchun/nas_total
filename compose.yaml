@@ -33,10 +33,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
 #      # 会产生权限覆盖问题，需要600权限
-      - $CONFIG/acme/acme.json:/acme.json
-#      - type: volume
-#        source: $CONFIG/acme/acme.json
-#        target: /acme.json
+      - $CONFIG/acme:/acme.json
     environment:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
       - TENCENTCLOUD_SECRET_KEY=${SECRET_KEY}
