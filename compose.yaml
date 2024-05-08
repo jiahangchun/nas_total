@@ -32,10 +32,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
-      - $CONFIG/acme:/etc/traefik/acme:rw
+      - $CONFIG/acme:/etc/traefik/acme
     environment:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
       - TENCENTCLOUD_SECRET_KEY=${SECRET_KEY}
+    command:
+      - chown
+      - -R
+      - 600:600
+      - /etc/traefik/acme
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8082/ping || exit 1" ]
       interval: 3s
