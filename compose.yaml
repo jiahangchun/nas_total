@@ -32,7 +32,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
-#      # 会产生权限覆盖问题，需要600权限
+      # 会产生权限覆盖问题，需要600权限
       - $CONFIG/acme:/etc/traefik/acme
     environment:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
