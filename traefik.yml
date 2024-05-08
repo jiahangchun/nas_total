@@ -33,6 +33,7 @@ certificatesResolvers:
   default:
     acme:
       email: jiahangchun@163.com
-      storage: acme.json
+      storage: /acme.json
+      certificatesDuration: 72
       dnsChallenge:
         provider: tencentcloud
