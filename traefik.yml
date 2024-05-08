@@ -20,6 +20,7 @@ entryPoints:
   ping:
     address: ":8082"
 
+
 ping:
   entryPoint: "ping"
 
@@ -28,12 +29,13 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: true
 
-
-certificatesResolvers:
-  default:
-    acme:
-      email: jiahangchun@163.com
-      storage: /etc/traefik/acme/acme.json
-      certificatesDuration: 72
-      dnsChallenge:
-        provider: tencentcloud
+# volumes 权限问题无法解决
+# - $CONFIG/acme:/etc/traefik/acme
+#certificatesResolvers:
+#  default:
+#    acme:
+#      email: jiahangchun@163.com
+#      storage: /etc/traefik/acme/acme.json
+#      certificatesDuration: 72
+#      dnsChallenge:
+#        provider: tencentcloud
