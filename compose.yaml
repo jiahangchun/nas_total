@@ -54,10 +54,9 @@ services:
     image: containous/whoami
     restart: always
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
-      - "traefik.http.routers.whoami.entrypoints=http"
-      - "traefik.http.routers.whoami.tls=true"
-      - "traefik.http.routers.whoami.tls.certresolver=default"
+      - "traefik.https.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
+      - "traefik.https.routers.whoami.tls=true"
+      - "traefik.https.routers.whoami.tls.certresolver=default"
     networks:
       - traefik
     depends_on:
