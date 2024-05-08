@@ -29,11 +29,3 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: true
 
-certificatesResolvers:
-  default:
-    acme:
-      email: jiahangchun@126.com
-      storage: /acme.json
-      certificatesDuration: 72
-      dnsChallenge:
-        provider: tencentcloud
