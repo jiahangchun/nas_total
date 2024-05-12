@@ -32,10 +32,11 @@ ping:
   entryPoint: "ping"
 
 providers:
+  consulCatalog:
+    defaultRule: "Host(`{{ .Name }}.jiahangchun.icu`)"
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: true
-    defaultRule: "Host(`{{ .Name }}.jiahangchun.icu`)"
   file:
     watch: true
     directory: /etc/traefik/config
