@@ -8,6 +8,7 @@ log:
 api:
   insecure: true
   dashboard: true
+  debug: false
 
 # 开放端口
 entryPoints:
@@ -28,4 +29,9 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: true
+  file:
+    watch: true
+    directory: ./config/traefik
+    debugLogGeneratedTemplate: true
+
 
