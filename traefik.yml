@@ -32,11 +32,13 @@ ping:
   entryPoint: "ping"
 
 providers:
-  consulCatalog:
-    defaultRule: "Host(`{{ .Name }}.jiahangchun.icu`)"
+  #https://doc.traefik.io/traefik/providers/docker/
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: true
+    #500毫秒超时 未相应配置
+    httpClientTimeout: 500
+    defaultRule: "Host(`{{ .Name }}.jiahangchun.icu`)"
   file:
     watch: true
     directory: /etc/traefik/config
