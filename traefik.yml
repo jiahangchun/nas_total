@@ -14,12 +14,12 @@ api:
 entryPoints:
   http:
     address: ":9001"
-    http:
-      redirections:
-        entryPoint:
-          to: https
-          scheme: https
-          permanent: true
+#    http:
+#      redirections:
+#        entryPoint:
+#          to: https
+#          scheme: https
+#          permanent: true
   https:
     address: ":1443"
   mysql:
@@ -35,6 +35,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: true
+    defaultRule: "Host(`{{ .Name }}.jiahangchun.icu`)"
   file:
     watch: true
     directory: /etc/traefik/config
