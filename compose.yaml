@@ -56,7 +56,8 @@ services:
     image: containous/whoami
     restart: always
     labels:
-      #- "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
+      # 指定host
+      - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
       # 开启 tls
       - "traefik.http.routers.whoami.tls=true"
       # 只允许通过端口1443访问
