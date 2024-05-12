@@ -57,7 +57,6 @@ services:
     restart: always
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
-      - "traefik.http.routers.whoami.tls=true"
     networks:
       - traefik
     depends_on:
