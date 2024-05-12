@@ -34,7 +34,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
-      - ./config/traefik/:/etc/traefik/config/:ro
+      - ./config/traefik/tls.toml:/etc/traefik/config/tls.toml:ro
       - /home/jiahangchun/.acme.sh/jiahangchun.icu_ecc/:/data/ssl/:ro
     environment:
       - TENCENTCLOUD_SECRET_ID=${SECRET_ID}
