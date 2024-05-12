@@ -39,7 +39,7 @@ providers:
     watch: true
     #500毫秒超时 未相应配置
     httpClientTimeout: 500
-    defaultRule: "Host(`{{ {{ index .Labels \"customLabel\"}}.jiahangchun.icu`)"
+    defaultRule: "Host(`{{ {{ normalize .Name }}.jiahangchun.icu`)"
   file:
     watch: true
     directory: /etc/traefik/config
