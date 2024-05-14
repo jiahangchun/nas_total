@@ -203,7 +203,7 @@ services:
   #  http://127.0.0.1:9114/nacos
   nacos:
     image: nacos/nacos-server
-    container_name: nacos-standalone
+    container_name: nacos
     volumes:
       - $DATA/nacos/standalone-logs/:/home/nacos/logs
     labels:
@@ -226,7 +226,7 @@ services:
   # remote开发
   nacos_test:
     image: nacos/nacos-server
-    container_name: nacos-standalone
+    container_name: nacos-test
     volumes:
       - $DATA/nacos2/standalone-logs/:/home/nacos/logs
     labels:
