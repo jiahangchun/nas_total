@@ -99,11 +99,9 @@ services:
       - APP_LANG=zh_CN
       - APP_URL=http://bookstack.jiahangchun.icu:9001/
       - WKHTMLTOPDF=/usr/bin/wkhtmltopdf
-      # Mail Setting
       - MAIL_DRIVER=smtp
       - MAIL_FROM=jiahangchun@163.com
       - MAIL_FROM_NAME="XXXX知识库"
-      # SMTP mail options
       - MAIL_HOST=smtpdm.aliyun.com
       - MAIL_PORT=465
       - MAIL_USERNAME=service@example.com
@@ -120,8 +118,6 @@ services:
       - bookstack_db
     networks:
       - traefik
-
-
 
 
   bookstack_db:
@@ -141,36 +137,13 @@ services:
     networks:
       - traefik
 
-  # docker 私有仓库 直接使用 nexus3 代替
-  # https://docker-practice.github.io/zh-cn/repository/registry.html
-#  registry:
-#    ports:
-#      - 9105:5000
-#    volumes:
-#      - $DATA/registry:/var/lib/registry
-#    restart: always
-#    logging:
-#      options:
-#        max-size: 1g
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.dockerRegistry.rule=Host(`dockerRegistry.jiahangchun.icu`)"
-#      - "traefik.http.routers.dockerRegistry.entrypoints=http"
-#    image: registry
-#    networks:
-#      - traefik
-
 
   mysql:
     restart: always
     image: mysql:8.0.18
     container_name: mysql-lable
-    #env_file:
-    #  - ./env/mysql.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456 # root用户密码
-      - MYSQL_DATABASE=jiahangchun
-      - TZ=Asia/Shanghai
+    env_file:
+      - $CONFIG/env/mysql.env
     volumes:
       - $DATA/mysql8/log:/var/log/mysql # 映射日志目录，宿主机:容器
       - $DATA/mysql8/data:/var/lib/mysql # 映射数据目录，宿主机:容器
@@ -211,25 +184,7 @@ services:
     depends_on:
       - traefik
 
-#快照库 github package 替換調了
-#  nexus:
-#    image: sonatype/nexus3
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.nexus.rule=Host(`nexus.jiahangchun.icu`)"
-#      - "traefik.http.services.nexus.loadbalancer.server.port=8081"
-#    volumes:
-#      - $DATA/nexus/nexus-data:/nexus-data
-#    restart: always
-#    ports:
-#      - 9112:8081
-#    networks:
-#      - traefik
-#    depends_on:
-#      - traefik
-
-
-#新增自定義服務
+  #新增自定義服務
   weixin_service:
     image: ghcr.io/jiahangchun/weixin:main
     container_name: weixin_service
@@ -256,24 +211,36 @@ services:
       #- "traefik.http.routers.nacos.rule=Host(`nacos.jiahangchun.icu`)"
       #- "traefik.http.services.nacos.loadbalancer.server.port=8848"
       - "traefik.enable=true"
-    #env_file:
-    # - ./env/nacos-standlone-mysql.env
     ports:
       - "9114:8848"
-      # 神經病 nacos 默認開啓端口
       - "10114:9848"
       - "10115:9849"
       - "8115:7848"
-    environment:
-      - PREFER_HOST_MODE=hostname
-      - MODE=standalone
-      - SPRING_DATASOURCE_PLATFORM=mysql
-      - MYSQL_SERVICE_HOST=mysql
-        # 这里还要容器的原始端口阿
-      - MYSQL_SERVICE_PORT=3306
-      - MYSQL_SERVICE_DB_NAME=nacos_config
-      - MYSQL_SERVICE_USER=root
-      - MYSQL_SERVICE_PASSWORD=123456
+    env_file:
+      - $CONFIG/env/nacos.env
+    networks:
+      - traefik
+    restart: always
+
+
+  # remote开发
+  nacos_test:
+    image: nacos/nacos-server
+    container_name: nacos-standalone
+    volumes:
+      - $DATA/nacos2/standalone-logs/:/home/nacos/logs
+    labels:
+      #暴露外网,做外部配置
+      - "traefik.http.routers.nacos.rule=Host(`nacos2.jiahangchun.icu`)"
+      - "traefik.http.services.nacos.loadbalancer.server.port=8848"
+      - "traefik.enable=true"
+    ports:
+      - "9105:8848"
+      - "10105:9848"
+      - "10106:9849"
+      - "8105:7848"
+    env_file:
+      - $CONFIG/env/nacos2.env
     networks:
       - traefik
     restart: always
@@ -292,23 +259,23 @@ services:
     networks:
       - traefik
 
-# 网络原因
-#  cadvisor:
-#    image: gcr.io/cadvisor/cadvisor:latest
-#    container_name: cadvisor
-#    hostname: cadvisor
-#    restart: always
-#    volumes:
-#      - /:/rootfs:ro
-#      - /var/run:/var/run:rw
-#      - /sys:/sys:ro
-#      - /var/lib/docker/:/var/lib/docker:ro
-#      - /var/lib/docker/:/var/lib/docker:ro
-#    ports:
-#      - "9102:8080"
-#    networks:
-#      - traefik
-# 需要先安装 cadvisor
+  # 网络原因
+  #  cadvisor:
+  #    image: gcr.io/cadvisor/cadvisor:latest
+  #    container_name: cadvisor
+  #    hostname: cadvisor
+  #    restart: always
+  #    volumes:
+  #      - /:/rootfs:ro
+  #      - /var/run:/var/run:rw
+  #      - /sys:/sys:ro
+  #      - /var/lib/docker/:/var/lib/docker:ro
+  #      - /var/lib/docker/:/var/lib/docker:ro
+  #    ports:
+  #      - "9102:8080"
+  #    networks:
+  #      - traefik
+  # 需要先安装 cadvisor
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -323,9 +290,9 @@ services:
       - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
     networks:
       - traefik
-#    depends_on:
-#      - cadvisor
-#      - node-exporter
+  #    depends_on:
+  #      - cadvisor
+  #      - node-exporter
 
 
   grafana:
