@@ -19,7 +19,7 @@ services:
     restart: always
     ports:
       - 9001:9001
-      - 1443:1443
+      - 1314:1314
       - 3307:3307
     labels:
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
@@ -53,11 +53,8 @@ services:
     image: containous/whoami
     restart: always
     labels:
-      # 指定host
       - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
-      # 开启 tls
       - "traefik.http.routers.whoami.tls=true"
-      # 只允许通过端口1443访问
       - "traefik.http.routers.whoami.entrypoints=https"
     networks:
       - traefik
