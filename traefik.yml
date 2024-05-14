@@ -21,7 +21,7 @@ entryPoints:
 #          scheme: https
 #          permanent: true
   https:
-    address: ":1443"
+    address: ":1314"
   mysql:
     address: ":3307"
   ping:
