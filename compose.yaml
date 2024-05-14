@@ -74,10 +74,6 @@ services:
       - $CONFIG/flare:/app
     labels:
       - "traefik.http.routers.flare.rule=Host(`flare.jiahangchun.icu`)"
-      # 开启 tls
-      - "traefik.http.routers.flare.tls=true"
-      # 只允许通过端口1443访问
-      - "traefik.http.routers.flare.entrypoints=https"
     networks:
       - traefik
     depends_on:
