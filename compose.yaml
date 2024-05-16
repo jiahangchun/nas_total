@@ -139,6 +139,12 @@ services:
     networks:
       - traefik
     restart: always
+    depends_on:
+      - traefik
+      - nacos
+      - nacos_test
+      - mysql
+
 
   #  http://127.0.0.1:9114/nacos
   nacos:
