@@ -13,19 +13,7 @@ api:
 # 开放端口
 entryPoints:
   http:
-    address: ":9001"
-#    http:
-#      redirections:
-#        entryPoint:
-#          to: https
-#          scheme: https
-#          permanent: true
-  https:
-    address: ":1314"
-  mysql:
-    address: ":3307"
-  ping:
-    address: ":8082"
+    address: ":12001"
 
 
 ping:
