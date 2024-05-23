@@ -22,8 +22,8 @@ entryPoints:
 #          permanent: true
   https:
     address: ":1314"
-#  mysql:
-#    address: ":3307"
+  mysql:
+    address: ":3307"
   ping:
     address: ":8082"
 

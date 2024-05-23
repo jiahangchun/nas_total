@@ -20,7 +20,7 @@ services:
     ports:
       - 9001:9001
       - 1314:1314
-#      - 3307:3307
+      - 3307:3307
     labels:
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
       - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
@@ -92,7 +92,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
-#      - "traefik.tcp.routers.mysql.entrypoints=mysql"
+      - "traefik.tcp.routers.mysql.entrypoints=mysql"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - 9107:3306
