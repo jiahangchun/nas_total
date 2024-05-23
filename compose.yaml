@@ -20,7 +20,7 @@ services:
     ports:
       - 9001:9001
       - 1314:1314
-      - 3307:3307
+#      - 3307:3307
     labels:
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.jiahangchun.icu`)"
       - "traefik.http.routers.traefik-dashboard.service=dashboard@internal"
@@ -142,7 +142,6 @@ services:
     depends_on:
       - traefik
       - nacos
-      - nacos_test
       - mysql
 
 
@@ -161,29 +160,6 @@ services:
       - "8115:7848"
     env_file:
       - $CONFIG/env/nacos.env
-    networks:
-      - traefik
-    restart: always
-
-
-  # remote开发
-  nacos_test:
-    image: nacos/nacos-server
-    container_name: nacos-test
-    volumes:
-      - $DATA/nacos2/standalone-logs/:/home/nacos/logs
-    labels:
-      #暴露外网,做外部配置
-      - "traefik.http.routers.nacos.rule=Host(`nacos2.jiahangchun.icu`)"
-      - "traefik.http.services.nacos.loadbalancer.server.port=8848"
-      - "traefik.enable=true"
-    ports:
-      - "9105:8848"
-      - "10105:9848"
-      - "10106:9849"
-      - "8105:7848"
-    env_file:
-      - $CONFIG/env/nacos2.env
     networks:
       - traefik
     restart: always
