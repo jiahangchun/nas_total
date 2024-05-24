@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   # 网关服务
   traefik:
@@ -6,7 +5,7 @@ services:
     image: traefik:v3.0.0
     restart: always
     ports:
-      - 9001:9001
+      - 12001:12001
       - 1314:1314
       - 3307:3307
     labels:
@@ -38,8 +37,6 @@ services:
     restart: always
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
-#      - "traefik.http.routers.whoami.tls=true"
-#      - "traefik.http.routers.whoami.entrypoints=https"
     networks:
       - traefik
     depends_on:
