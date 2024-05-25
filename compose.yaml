@@ -215,6 +215,24 @@ services:
       - traefik
 
 
+  open-webui:
+    ports:
+      - 9111:8080
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - $CONFIG/open-webui:/app/backend/data
+    labels:
+      - "traefik.http.routers.grafana.rule=Host(`openai.jiahangchun.icu`)"
+    container_name: open-webui
+    restart: always
+    image: ghcr.io/open-webui/open-webui:main
+    networks:
+      - traefik
+    depends_on:
+      - traefik
+
+
 networks:
   traefik:
     external: true
