@@ -43,25 +43,25 @@ services:
       - traefik
 
 
-  ollama:
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities:
-                - gpu
-    volumes:
-      - C://jiahangchun//idea//code//docker//data//ollama:/root/.ollama
-    ports:
-      - 11434:11434
-    container_name: ollama
-    image: ollama/ollama
-    networks:
-      - traefik
-    depends_on:
-      - traefik
+#  ollama:
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: all
+#              capabilities:
+#                - gpu
+#    volumes:
+#      - C://jiahangchun//idea//code//docker//data//ollama:/root/.ollama
+#    ports:
+#      - 11434:11434
+#    container_name: ollama
+#    image: ollama/ollama
+#    networks:
+#      - traefik
+#    depends_on:
+#      - traefik
 
   open-webui:
     ports:
