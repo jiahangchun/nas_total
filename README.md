@@ -11,6 +11,9 @@ cd /c/jiahangchun/idea/code/nas_total
 ## 验证
 访问 http://whoami.jiahangchun.icu:12001/
 
+## 安装open-webui
+https://github.com/open-webui/open-webui
+
 
 
 
