@@ -3,9 +3,25 @@ export CONFIG=/storefile/config
 export DATA=/storefile/data
 
 # 配置文件
-mkdir $CONFIG
-mkdir $DATA
-touch $CONFIG/.env
+if [ ! -d $CONFIG ];then
+  mkdir $CONFIG
+  else
+  echo $CONFIG"文件夹已就绪"
+fi
+
+if [ ! -d $DATA ];then
+  mkdir $DATA
+  else
+  echo $DATA"文件夹已就绪"
+fi
+
+#环境变量配置文件
+if [ -f $CONFIG/env ];then
+  echo $CONFIG/env"文件已存在"
+  else
+  touch $CONFIG/env
+fi
+
 
 echo "对文件夹赋值"
 chmod -R 777 $CONFIG
