@@ -2,7 +2,10 @@
 export CONFIG=/storefile/config
 export DATA=/storefile/data
 
-
+# 配置文件
+mdkir $CONFIG
+mdkir $DATA
+mkdir $CONFIG/.env
 
 echo "对文件夹赋值"
 chmod -R 777 $CONFIG
