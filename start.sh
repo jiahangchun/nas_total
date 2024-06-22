@@ -20,5 +20,5 @@ docker  rm $(docker ps -a -q)
 echo "删除所有容器"
 
 echo "用户 ""$USER"" 开始部署docker"
-docker-compose -f ./compose.yaml --env-file=$CONFIG/.env up -d
+docker-compose -f ./compose.yaml --env-file=$CONFIG/env up -d
 exit;
