@@ -5,7 +5,7 @@ export DATA=/storefile/data
 # 配置文件
 mdkir $CONFIG
 mdkir $DATA
-mkdir $CONFIG/.env
+touch $CONFIG/.env
 
 echo "对文件夹赋值"
 chmod -R 777 $CONFIG
