@@ -43,40 +43,18 @@ services:
       - traefik
 
 
-#  ollama:
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - driver: nvidia
-#              count: all
-#              capabilities:
-#                - gpu
-#    volumes:
-#      - C://jiahangchun//idea//code//docker//data//ollama:/root/.ollama
-#    ports:
-#      - 11434:11434
-#    container_name: ollama
-#    image: ollama/ollama
-#    networks:
-#      - traefik
-#    depends_on:
-#      - traefik
-
-  open-webui:
-    ports:
-      - 3000:8080
-    extra_hosts:
-      - host.docker.internal:host-gateway
+  alist:
+    image: 'xhofe/alist:latest-ffmpeg'
+    container_name: alist
     volumes:
-      - C://jiahangchun//idea//code//docker//data//open-webui:/app/backend/data
-    container_name: open-webui
-    restart: always
-    image: ghcr.io/open-webui/open-webui:main
-    networks:
-      - traefik
-    depends_on:
-      - traefik
+      - 'C://jiahangchun//idea//code//docker//config//alist:/opt/alist/data'
+    ports:
+      - '5244:5244'
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=022
+    restart: unless-stopped
 
 networks:
   traefik:
