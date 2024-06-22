@@ -8,6 +8,8 @@ docker-compose -f ./compose.yaml up -d
 
 
 
+docker-compose -f ./compose.yaml up -d
+
 ## 改switch hosts 文件
 127.0.0.1 whoami.jiahangchun.icu
 
