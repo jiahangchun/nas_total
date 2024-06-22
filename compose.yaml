@@ -81,8 +81,6 @@ services:
     restart: always
     image: mysql:8.0.18
     container_name: mysql-lable
-    env_file:
-      - $CONFIG/mysql/mysql.env
     volumes:
       - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
       - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
@@ -157,8 +155,6 @@ services:
       - "10114:9848"
       - "10115:9849"
       - "8115:7848"
-    env_file:
-      - $CONFIG/nacos/nacos.env
     networks:
       - traefik
     restart: always
