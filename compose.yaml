@@ -35,7 +35,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
       - ./config/traefik/:/etc/traefik/config:ro
-#      - /home/jiahangchun/.acme.sh/jiahangchun.icu_ecc/:/data/ssl/:ro
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8082/ping || exit 1" ]
       interval: 3s
@@ -83,10 +82,10 @@ services:
     image: mysql:8.0.18
     container_name: mysql-lable
     env_file:
-      - $CONFIG/env/mysql.env
+      - $CONFIG/mysql/mysql.env
     volumes:
-      - $DATA/mysql8/log:/var/log/mysql # 映射日志目录，宿主机:容器
-      - $DATA/mysql8/data:/var/lib/mysql # 映射数据目录，宿主机:容器
+      - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
+      - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
       - $CONFIG/mysql/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机:容器
       - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
     labels:
@@ -159,7 +158,7 @@ services:
       - "10115:9849"
       - "8115:7848"
     env_file:
-      - $CONFIG/env/nacos.env
+      - $CONFIG/nacos/nacos.env
     networks:
       - traefik
     restart: always
@@ -185,8 +184,8 @@ services:
     hostname: prometheus
     restart: always
     volumes:
-      - $CONFIG/monitor/prometheus.yml:/etc/prometheus/prometheus.yml
-      - $CONFIG/monitor/node_down.yml:/etc/prometheus/node_down.yml
+      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
     ports:
       - "9103:9090"
     labels:
@@ -203,7 +202,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
     volumes:
-      - '$DATA/grafana/:/var/lib/grafana'
+      - $DATA/grafana/:/var/lib/grafana
     restart: always
     labels:
       - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
