@@ -1,6 +1,6 @@
 # shellcheck disable=SC2232
-export CONFIG=/home/jiahangchun/jiahangchun_config
-export DATA=/home/jiahangchun/jiahangchun_data
+export CONFIG=/storefile/config
+export DATA=/storefile/data
 
 
 

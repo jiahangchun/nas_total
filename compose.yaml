@@ -35,7 +35,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/traefik.yml:ro
       - ./config/traefik/:/etc/traefik/config:ro
-      - /home/jiahangchun/.acme.sh/jiahangchun.icu_ecc/:/data/ssl/:ro
+#      - /home/jiahangchun/.acme.sh/jiahangchun.icu_ecc/:/data/ssl/:ro
     healthcheck:
       test: [ "CMD-SHELL", "wget -q --spider --proxy off localhost:8082/ping || exit 1" ]
       interval: 3s
