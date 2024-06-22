@@ -15,12 +15,6 @@ if [ ! -d $DATA ];then
   echo $DATA"文件夹已就绪"
 fi
 
-#环境变量配置文件
-if [ -f $CONFIG/env ];then
-  echo $CONFIG/env"文件已存在"
-  else
-  touch $CONFIG/env
-fi
 
 
 echo "对文件夹赋值"
@@ -36,5 +30,5 @@ echo "数据地址："$DATA
 #echo "删除所有容器"
 
 echo "用户 ""$USER"" 开始部署docker"
-docker-compose -f ./compose.yaml --env-file=$CONFIG/env up -d
+docker-compose -f ./compose.yaml --env-file=.env up -d
 exit;
