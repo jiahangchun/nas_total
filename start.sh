@@ -30,5 +30,5 @@ echo "数据地址："$DATA
 #echo "删除所有容器"
 
 echo "用户 ""$USER"" 开始部署docker"
-docker-compose -f ./compose.yaml --env-file=./prod.env up -d
+docker-compose -f ./compose.yaml up -d
 exit;
