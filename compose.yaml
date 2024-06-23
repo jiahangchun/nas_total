@@ -13,8 +13,6 @@ services:
       - "traefik.http.routers.ddns.rule=Host(`ddns.jiahangchun.icu`)"
     networks:
       - traefik
-    depends_on:
-      - traefik
 
   # 网关服务
   traefik:
