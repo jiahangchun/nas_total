@@ -125,7 +125,7 @@ services:
     depends_on:
       - traefik
 
-  #新增自定義服務
+  # 新增自定義服務
   weixin_service:
     image: ghcr.io/jiahangchun/weixin:main
     container_name: weixin_service
