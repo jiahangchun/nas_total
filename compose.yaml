@@ -124,28 +124,28 @@ services:
       - traefik
     depends_on:
       - traefik
-#
-#  #新增自定義服務
-#  weixin_service:
-#    image: ghcr.io/jiahangchun/weixin:main
-#    container_name: weixin_service
-#    ports:
-#      - 9113:8080
-#    volumes:
-#      - $DATA/weixin_service:/app
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.weixin.rule=Host(`weixin.jiahangchun.icu`)"
-#      - "traefik.http.services.weixin.loadbalancer.server.port=8080"
-#    networks:
-#      - traefik
-#    restart: always
-#    depends_on:
-#      - traefik
-#      - nacos
-#      - mysql
-#
-#
+
+  #新增自定義服務
+  weixin_service:
+    image: ghcr.io/jiahangchun/weixin:main
+    container_name: weixin_service
+    ports:
+      - 9113:8080
+    volumes:
+      - $DATA/weixin_service:/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.weixin.rule=Host(`weixin.jiahangchun.icu`)"
+      - "traefik.http.services.weixin.loadbalancer.server.port=8080"
+    networks:
+      - traefik
+    restart: always
+    depends_on:
+      - traefik
+      - nacos
+      - mysql
+
+
   #  http://127.0.0.1:9114/nacos
   nacos:
     image: nacos/nacos-server
