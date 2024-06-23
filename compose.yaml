@@ -77,9 +77,9 @@ services:
   # https://hub.docker.com/_/mysql
   # docker exec -it some-mysql bash
   # docker logs some-mysql
-  mysql:
+  mysqldb:
     image: mysql:8.0.18
-    container_name: mysql
+    container_name: mysqldb
     volumes:
       - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
       - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
