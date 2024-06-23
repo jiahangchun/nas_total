@@ -80,7 +80,6 @@ services:
 
 
   mysql:
-    restart: always
     image: mysql:8.0.18
     container_name: mysql-lable
     volumes:
