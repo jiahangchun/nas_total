@@ -80,15 +80,20 @@ services:
   mysqldb:
     image: mysql:8.0.18
     container_name: mysqldb
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - TZ=$TZ
     volumes:
       - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
       - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
       - $CONFIG/mysql/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机:容器
       - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
-    labels:
-      - "traefik.enable=true"
-      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
-      - "traefik.tcp.routers.mysql.entrypoints=mysql"
+# 禁止外网访问
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
+#      - "traefik.tcp.routers.mysql.entrypoints=mysql"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - 9107:3306
