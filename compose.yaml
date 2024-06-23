@@ -81,7 +81,7 @@ services:
 
   mysql:
     image: mysql:8.0.18
-    container_name: mysql-lable
+    container_name: mysql
     volumes:
       - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
       - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
