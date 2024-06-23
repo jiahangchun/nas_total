@@ -1,3 +1,4 @@
+# sudo docker ps
 # shellcheck disable=SC2046
 #sudo docker stop $(sudo docker ps -a -q)
 # shellcheck disable=SC2046

@@ -99,31 +99,31 @@ services:
       - 9107:3306
     networks:
       - traefik
-#
-#  #docker控制面板
-#  # 访问 http://portaineree.jiahangchun.icu:9001/ 即可访问，这边端口是 未被映射出来的端口,也就是原始端口
-#  # 这边还需要手动 指定端口，可能 portainer 暴露了多个端口，导致 traefik listener文件 随机选取了一个
-#  # 参考 官方文档：https://doc.traefik.io/traefik/providers/docker/
-#  portainer-ee:
-#    ports:
-#      - 9108:8000 # 官方文档上的地址是这个
-#      - 9109:9443
-#      - 9110:9000 #这个才是webUI的端口
-#    container_name: portainer
-#    restart: always
-#    command: -H unix:///var/run/docker.sock
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - $DATA/portainer:/data
-#    image: portainer/portainer-ee:latest
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
-#      - "traefik.http.services.portaineree.loadbalancer.server.port=9000"
-#    networks:
-#      - traefik
-#    depends_on:
-#      - traefik
+
+  #docker控制面板
+  # 访问 http://portaineree.jiahangchun.icu:9001/ 即可访问，这边端口是 未被映射出来的端口,也就是原始端口
+  # 这边还需要手动 指定端口，可能 portainer 暴露了多个端口，导致 traefik listener文件 随机选取了一个
+  # 参考 官方文档：https://doc.traefik.io/traefik/providers/docker/
+  portainer:
+    ports:
+      - 9108:8000 # 官方文档上的地址是这个
+      - 9109:9443
+      - 9110:9000 #这个才是webUI的端口
+    container_name: portainer
+    restart: always
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $DATA/portainer:/data
+    image: portainer/portainer-ee:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
+      - "traefik.http.services.portaineree.loadbalancer.server.port=9000"
+    networks:
+      - traefik
+    depends_on:
+      - traefik
 #
 #  #新增自定義服務
 #  weixin_service:
