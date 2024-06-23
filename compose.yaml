@@ -220,6 +220,28 @@ services:
 #    networks:
 #      - traefik
 
+  dsm:
+    container_name: dsm
+    image: vdsm/virtual-dsm
+    environment:
+      DISK_SIZE: "500G"
+    devices: #kvm是一个内核模块，提供虚拟化能力，对外模拟系统
+      - /dev/kvm
+    cap_add: #增加网络访问特权
+      - NET_ADMIN
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.weixin.rule=Host(`dsm.jiahangchun.icu`)"
+    ports:
+      - 9115:5000
+    volumes:
+      - /storefile/data/dsm/:/storage
+    # 指定在发送SIGKILL之前，如果容器无法处理SIGTERM或使用stop_signal指定的任何停止信号时，试图停止该容器所需要的等待时间
+    stop_grace_period: 2m
+    networks:
+      - traefik
+
+
 networks:
   traefik:
     external: true
