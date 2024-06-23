@@ -146,22 +146,22 @@ services:
 #      - mysql
 #
 #
-#  #  http://127.0.0.1:9114/nacos
-#  nacos:
-#    image: nacos/nacos-server
-#    container_name: nacos
-#    volumes:
-#      - $DATA/nacos/standalone-logs/:/home/nacos/logs
-#    labels:
-#      - "traefik.enable=true"
-#    ports:
-#      - "9114:8848"
-#      - "10114:9848"
-#      - "10115:9849"
-#      - "8115:7848"
-#    networks:
-#      - traefik
-#    restart: always
+  #  http://127.0.0.1:9114/nacos
+  nacos:
+    image: nacos/nacos-server
+    container_name: nacos
+    volumes:
+      - $DATA/nacos/standalone-logs/:/home/nacos/logs
+    labels:
+      - "traefik.enable=true"
+    ports:
+      - "9114:8848"
+      - "10114:9848"
+      - "10115:9849"
+      - "8115:7848"
+    networks:
+      - traefik
+    restart: always
 #
 #  # 待验证
 #  ##########################################监控##############################################
