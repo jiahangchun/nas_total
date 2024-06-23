@@ -6,7 +6,7 @@ log:
 
 
 api:
-  insecure: true
+  #insecure: true
   dashboard: true
   debug: false
 
@@ -39,9 +39,9 @@ providers:
     watch: true
     #500毫秒超时 未相应配置
     httpClientTimeout: 500
-  file:
-    watch: true
-    directory: /etc/traefik/config
-    debugLogGeneratedTemplate: true
+#  file:
+#    watch: true
+#    directory: /etc/traefik/config
+#    debugLogGeneratedTemplate: true
 
 

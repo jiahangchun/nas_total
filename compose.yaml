@@ -11,6 +11,10 @@ services:
       - $CONFIG/ddns:/root
     labels:
       - "traefik.http.routers.ddns.rule=Host(`ddns.jiahangchun.icu`)"
+    networks:
+      - traefik
+    depends_on:
+      - traefik
 
   # 网关服务
   traefik:
@@ -53,8 +57,8 @@ services:
     restart: always
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.jiahangchun.icu`)"
-      - "traefik.http.routers.whoami.tls=true"
-      - "traefik.http.routers.whoami.entrypoints=https"
+#      - "traefik.http.routers.whoami.tls=true"
+#      - "traefik.http.routers.whoami.entrypoints=https"
     networks:
       - traefik
     depends_on:
@@ -77,137 +81,137 @@ services:
         condition: service_healthy
 
 
-  mysql:
-    restart: always
-    image: mysql:8.0.18
-    container_name: mysql-lable
-    volumes:
-      - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
-      - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
-      - $CONFIG/mysql/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机:容器
-      - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
-    labels:
-      - "traefik.enable=true"
-      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
-      - "traefik.tcp.routers.mysql.entrypoints=mysql"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    ports:
-      - 9107:3306
-    networks:
-      - traefik
-
-  #docker控制面板
-  # 访问 http://portaineree.jiahangchun.icu:9001/ 即可访问，这边端口是 未被映射出来的端口,也就是原始端口
-  # 这边还需要手动 指定端口，可能 portainer 暴露了多个端口，导致 traefik listener文件 随机选取了一个
-  # 参考 官方文档：https://doc.traefik.io/traefik/providers/docker/
-  portainer-ee:
-    ports:
-      - 9108:8000 # 官方文档上的地址是这个
-      - 9109:9443
-      - 9110:9000 #这个才是webUI的端口
-    container_name: portainer
-    restart: always
-    command: -H unix:///var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - $DATA/portainer:/data
-    image: portainer/portainer-ee:latest
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
-      - "traefik.http.services.portaineree.loadbalancer.server.port=9000"
-    networks:
-      - traefik
-    depends_on:
-      - traefik
-
-  #新增自定義服務
-  weixin_service:
-    image: ghcr.io/jiahangchun/weixin:main
-    container_name: weixin_service
-    ports:
-      - 9113:8080
-    volumes:
-      - $DATA/weixin_service:/app
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`weixin.jiahangchun.icu`)"
-      - "traefik.http.services.weixin.loadbalancer.server.port=8080"
-    networks:
-      - traefik
-    restart: always
-    depends_on:
-      - traefik
-      - nacos
-      - mysql
-
-
-  #  http://127.0.0.1:9114/nacos
-  nacos:
-    image: nacos/nacos-server
-    container_name: nacos
-    volumes:
-      - $DATA/nacos/standalone-logs/:/home/nacos/logs
-    labels:
-      - "traefik.enable=true"
-    ports:
-      - "9114:8848"
-      - "10114:9848"
-      - "10115:9849"
-      - "8115:7848"
-    networks:
-      - traefik
-    restart: always
-
-  # 待验证
-  ##########################################监控##############################################
-  node-exporter:
-    image: quay.io/prometheus/node-exporter
-    container_name: node-exporter
-    hostname: node-exporter
-    restart: always
-    labels:
-      - "traefik.http.routers.exporter.rule=Host(`exporter.jiahangchun.icu`)"
-    ports:
-      - "9101:9100"
-    networks:
-      - traefik
-
-  # 需要先安装 cadvisor
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    hostname: prometheus
-    restart: always
-    volumes:
-      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
-    ports:
-      - "9103:9090"
-    labels:
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
-    networks:
-      - traefik
-
-
-
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    hostname: grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
-    volumes:
-      - $DATA/grafana/:/var/lib/grafana
-    restart: always
-    labels:
-      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
-    ports:
-      - "9104:3000"
-    depends_on:
-      - prometheus
-    networks:
-      - traefik
+#  mysql:
+#    restart: always
+#    image: mysql:8.0.18
+#    container_name: mysql-lable
+#    volumes:
+#      - $DATA/mysql/log:/var/log/mysql # 映射日志目录，宿主机:容器
+#      - $DATA/mysql/data:/var/lib/mysql # 映射数据目录，宿主机:容器
+#      - $CONFIG/mysql/conf.d:/etc/mysql/conf.d # 映射配置目录，宿主机:容器
+#      - /etc/localtime:/etc/localtime:ro # 让容器的时钟与宿主机时钟同步，避免时间的问题，ro是read only的意思，就是只读。
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.tcp.routers.mysql.rule=HostSNI(`*`)"
+#      - "traefik.tcp.routers.mysql.entrypoints=mysql"
+#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+#    ports:
+#      - 9107:3306
+#    networks:
+#      - traefik
+#
+#  #docker控制面板
+#  # 访问 http://portaineree.jiahangchun.icu:9001/ 即可访问，这边端口是 未被映射出来的端口,也就是原始端口
+#  # 这边还需要手动 指定端口，可能 portainer 暴露了多个端口，导致 traefik listener文件 随机选取了一个
+#  # 参考 官方文档：https://doc.traefik.io/traefik/providers/docker/
+#  portainer-ee:
+#    ports:
+#      - 9108:8000 # 官方文档上的地址是这个
+#      - 9109:9443
+#      - 9110:9000 #这个才是webUI的端口
+#    container_name: portainer
+#    restart: always
+#    command: -H unix:///var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - $DATA/portainer:/data
+#    image: portainer/portainer-ee:latest
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.portaineree.rule=Host(`portaineree.jiahangchun.icu`)"
+#      - "traefik.http.services.portaineree.loadbalancer.server.port=9000"
+#    networks:
+#      - traefik
+#    depends_on:
+#      - traefik
+#
+#  #新增自定義服務
+#  weixin_service:
+#    image: ghcr.io/jiahangchun/weixin:main
+#    container_name: weixin_service
+#    ports:
+#      - 9113:8080
+#    volumes:
+#      - $DATA/weixin_service:/app
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.weixin.rule=Host(`weixin.jiahangchun.icu`)"
+#      - "traefik.http.services.weixin.loadbalancer.server.port=8080"
+#    networks:
+#      - traefik
+#    restart: always
+#    depends_on:
+#      - traefik
+#      - nacos
+#      - mysql
+#
+#
+#  #  http://127.0.0.1:9114/nacos
+#  nacos:
+#    image: nacos/nacos-server
+#    container_name: nacos
+#    volumes:
+#      - $DATA/nacos/standalone-logs/:/home/nacos/logs
+#    labels:
+#      - "traefik.enable=true"
+#    ports:
+#      - "9114:8848"
+#      - "10114:9848"
+#      - "10115:9849"
+#      - "8115:7848"
+#    networks:
+#      - traefik
+#    restart: always
+#
+#  # 待验证
+#  ##########################################监控##############################################
+#  node-exporter:
+#    image: quay.io/prometheus/node-exporter
+#    container_name: node-exporter
+#    hostname: node-exporter
+#    restart: always
+#    labels:
+#      - "traefik.http.routers.exporter.rule=Host(`exporter.jiahangchun.icu`)"
+#    ports:
+#      - "9101:9100"
+#    networks:
+#      - traefik
+#
+#  # 需要先安装 cadvisor
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    hostname: prometheus
+#    restart: always
+#    volumes:
+#      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
+#    ports:
+#      - "9103:9090"
+#    labels:
+#      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
+#    networks:
+#      - traefik
+#
+#
+#
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    hostname: grafana
+#    environment:
+#      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
+#    volumes:
+#      - $DATA/grafana/:/var/lib/grafana
+#    restart: always
+#    labels:
+#      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
+#    ports:
+#      - "9104:3000"
+#    depends_on:
+#      - prometheus
+#    networks:
+#      - traefik
 
 networks:
   traefik:
