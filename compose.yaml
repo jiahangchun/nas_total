@@ -185,20 +185,20 @@ services:
       - traefik
 
   # 需要先安装 cadvisor
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    hostname: prometheus
-    restart: always
-    volumes:
-      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
-    ports:
-      - "9103:9090"
-    labels:
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
-    networks:
-      - traefik
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    hostname: prometheus
+#    restart: always
+#    volumes:
+#      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
+#    ports:
+#      - "9103:9090"
+#    labels:
+#      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
+#    networks:
+#      - traefik
 
 
 
