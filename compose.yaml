@@ -241,6 +241,22 @@ services:
     networks:
       - traefik
 
+  #小雅
+  xiaoya:
+    build: # 构建自定义镜像
+      context: ../coding                 # 指定Dockerfile文件所在路径
+      dockerfile: Dockerfile_xiaoya         # 指定Dockerfile文件名称
+    image: ssm:1.0.1
+    container_name: xiaoya
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.weixin.rule=Host(`xiaoya.jiahangchun.icu`)"
+    ports:
+      - 11111:8080
+    environment:
+      TZ: Asia/Shanghai
+
+
 
 networks:
   traefik:

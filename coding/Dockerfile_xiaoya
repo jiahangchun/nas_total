@@ -1,0 +1,30 @@
+# 基本镜像，ubuntu:20.04
+FROM ubuntu:20.04
+
+# 跳过时区选择（必须执行，否则后续构建镜像时会卡死到时区选择）
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 编码格式
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# 指定用户
+USER root
+
+# 切换时区
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# 切换到国内镜像源（镜像、容器内部的）
+RUN  sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+RUN  apt-get clean
+
+# 安装运行环境，比如一些第三方工具或者Java服务程序所依赖的包
+RUN set -x; apt-get update \
+   && apt-get install sudo \
+   && sudo apt-get update \
+   && sudo apt install -y libssl-dev \
+   && sudo apt-get install -y libpq-dev \
+   && sudo apt-get install libfontconfig1-dev -y \
+   && sudo apt-get install libegl1-mesa-dev -y
+
