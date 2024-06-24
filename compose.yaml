@@ -285,7 +285,7 @@ services:
   #小雅
   xiaoya:
     build: # 构建自定义镜像
-      context: ../coding                 # 指定Dockerfile文件所在路径
+      context: ./coding                 # 指定Dockerfile文件所在路径
       dockerfile: Dockerfile_xiaoya         # 指定Dockerfile文件名称
     container_name: xiaoya
     labels:
