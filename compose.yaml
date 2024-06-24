@@ -202,23 +202,23 @@ services:
 
 
 
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    hostname: grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
-    volumes:
-      - $DATA/grafana/:/var/lib/grafana
-    restart: always
-    labels:
-      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
-    ports:
-      - "9104:3000"
-    depends_on:
-      - prometheus
-    networks:
-      - traefik
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    hostname: grafana
+#    environment:
+#      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
+#    volumes:
+#      - $DATA/grafana/:/var/lib/grafana
+#    restart: always
+#    labels:
+#      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
+#    ports:
+#      - "9104:3000"
+#    depends_on:
+#      - prometheus
+#    networks:
+#      - traefik
 
   dsm:
     container_name: dsm
