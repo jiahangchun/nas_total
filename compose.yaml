@@ -241,20 +241,60 @@ services:
     networks:
       - traefik
 
-  #小雅
-  xiaoya:
-    build: # 构建自定义镜像
-      context: ../coding                 # 指定Dockerfile文件所在路径
-      dockerfile: Dockerfile_xiaoya         # 指定Dockerfile文件名称
-    image: ssm:1.0.1
-    container_name: xiaoya
+  # 存储中间设备
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    ports:
+      - '9116:8081'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`xiaoya.jiahangchun.icu`)"
-    ports:
-      - 11111:8080
+      - "traefik.http.routers.weixin.rule=Host(`nexus.jiahangchun.icu`)"
+    networks:
+      - traefik
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.jiahangchun.icu'
     environment:
-      TZ: Asia/Shanghai
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.example.com:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+    ports:
+      - '8929:8929'
+      - '443:443'
+      - '2424:22'
+    volumes:
+      - '$DATA/gitlab/config:/etc/gitlab'
+      - '$DATA/gitlab/logs:/var/log/gitlab'
+      - '$DATA/gitlab/data:/var/opt/gitlab'
+    shm_size: '256m'
+
+  #CIDI 脚本
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '$DATA/gitlab/gitlab-runner-config:/etc/gitlab-runner'
+
+
+  #小雅
+#  xiaoya:
+#    build: # 构建自定义镜像
+#      context: ../coding                 # 指定Dockerfile文件所在路径
+#      dockerfile: Dockerfile_xiaoya         # 指定Dockerfile文件名称
+#    container_name: xiaoya
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.weixin.rule=Host(`xiaoya.jiahangchun.icu`)"
+#    ports:
+#      - 11111:8080
+#    environment:
+#      TZ: Asia/Shanghai
 
 
 
