@@ -172,53 +172,53 @@ services:
 #
 #  # 待验证
 #  ##########################################监控##############################################
-#  node-exporter:
-#    image: quay.io/prometheus/node-exporter
-#    container_name: node-exporter
-#    hostname: node-exporter
-#    restart: always
-#    labels:
-#      - "traefik.http.routers.exporter.rule=Host(`exporter.jiahangchun.icu`)"
-#    ports:
-#      - "9101:9100"
-#    networks:
-#      - traefik
-#
-#  # 需要先安装 cadvisor
-#  prometheus:
-#    image: prom/prometheus
-#    container_name: prometheus
-#    hostname: prometheus
-#    restart: always
-#    volumes:
-#      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-#      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
-#    ports:
-#      - "9103:9090"
-#    labels:
-#      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
-#    networks:
-#      - traefik
-#
-#
-#
-#  grafana:
-#    image: grafana/grafana
-#    container_name: grafana
-#    hostname: grafana
-#    environment:
-#      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
-#    volumes:
-#      - $DATA/grafana/:/var/lib/grafana
-#    restart: always
-#    labels:
-#      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
-#    ports:
-#      - "9104:3000"
-#    depends_on:
-#      - prometheus
-#    networks:
-#      - traefik
+  node-exporter:
+    image: quay.io/prometheus/node-exporter
+    container_name: node-exporter
+    hostname: node-exporter
+    restart: always
+    labels:
+      - "traefik.http.routers.exporter.rule=Host(`exporter.jiahangchun.icu`)"
+    ports:
+      - "9101:9100"
+    networks:
+      - traefik
+
+  # 需要先安装 cadvisor
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    hostname: prometheus
+    restart: always
+    volumes:
+      - $CONFIG/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - $CONFIG/prometheus/node_down.yml:/etc/prometheus/node_down.yml
+    ports:
+      - "9103:9090"
+    labels:
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.jiahangchun.icu`)"
+    networks:
+      - traefik
+
+
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=jiahangchun
+    volumes:
+      - $DATA/grafana/:/var/lib/grafana
+    restart: always
+    labels:
+      - "traefik.http.routers.grafana.rule=Host(`grafana.jiahangchun.icu`)"
+    ports:
+      - "9104:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - traefik
 
   dsm:
     container_name: dsm
@@ -283,18 +283,18 @@ services:
 
 
   #小雅
-#  xiaoya:
-#    build: # 构建自定义镜像
-#      context: ../coding                 # 指定Dockerfile文件所在路径
-#      dockerfile: Dockerfile_xiaoya         # 指定Dockerfile文件名称
-#    container_name: xiaoya
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.weixin.rule=Host(`xiaoya.jiahangchun.icu`)"
-#    ports:
-#      - 11111:8080
-#    environment:
-#      TZ: Asia/Shanghai
+  xiaoya:
+    build: # 构建自定义镜像
+      context: ../coding                 # 指定Dockerfile文件所在路径
+      dockerfile: Dockerfile_xiaoya         # 指定Dockerfile文件名称
+    container_name: xiaoya
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.weixin.rule=Host(`xiaoya.jiahangchun.icu`)"
+    ports:
+      - 11111:8080
+    environment:
+      TZ: Asia/Shanghai
 
 
 
