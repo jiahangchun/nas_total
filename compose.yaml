@@ -272,6 +272,8 @@ services:
       - '$DATA/gitlab/logs:/var/log/gitlab'
       - '$DATA/gitlab/data:/var/opt/gitlab'
     shm_size: '256m'
+    networks:
+      - traefik
 
   #CIDI 脚本
   gitlab-runner:
@@ -281,6 +283,8 @@ services:
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - '$DATA/gitlab/gitlab-runner-config:/etc/gitlab-runner'
+    networks:
+      - traefik
 
 
   #小雅
@@ -296,6 +300,8 @@ services:
       - 11111:8080
     environment:
       TZ: Asia/Shanghai
+    networks:
+      - traefik
 
 
 
