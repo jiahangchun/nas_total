@@ -267,6 +267,9 @@ services:
       - '8929:8929'
       - '443:443'
       - '2424:22'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.weixin.rule=Host(`gitlab.jiahangchun.icu`)"
     volumes:
       - '$DATA/gitlab/config:/etc/gitlab'
       - '$DATA/gitlab/logs:/var/log/gitlab'
@@ -280,6 +283,9 @@ services:
     image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.weixin.rule=Host(`gitlabrunner.jiahangchun.icu`)"
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - '$DATA/gitlab/gitlab-runner-config:/etc/gitlab-runner'
