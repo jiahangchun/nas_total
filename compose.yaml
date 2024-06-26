@@ -248,6 +248,10 @@ services:
     container_name: nexus
     ports:
       - '9116:8081'
+    restart: always
+    volumes:
+      - '/etc/localtime:/etc/localtime'
+      - '$DATA/nexus/data:/nexus-data'
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nexus.rule=Host(`nexus.jiahangchun.icu`)"
