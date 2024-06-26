@@ -233,6 +233,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dsm.rule=Host(`dsm.jiahangchun.icu`)"
+      - "traefik.http.services.nexus.loadbalancer.server.port=5000"
     ports:
       - 9115:5000
     volumes:
