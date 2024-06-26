@@ -232,7 +232,7 @@ services:
       - NET_ADMIN
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`dsm.jiahangchun.icu`)"
+      - "traefik.http.routers.dsm.rule=Host(`dsm.jiahangchun.icu`)"
     ports:
       - 9115:5000
     volumes:
@@ -250,8 +250,8 @@ services:
       - '9116:8081'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`nexus.jiahangchun.icu`)"
-      - "traefik.http.services.weixin.loadbalancer.server.port=8081"
+      - "traefik.http.routers.nexus.rule=Host(`nexus.jiahangchun.icu`)"
+      #- "traefik.http.services.nexus.loadbalancer.server.port=8081"
     networks:
       - traefik
 
@@ -270,7 +270,7 @@ services:
       - '2424:22'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`gitlab.jiahangchun.icu`)"
+      - "traefik.http.routers.gitlab.rule=Host(`gitlab.jiahangchun.icu`)"
     volumes:
       - '$DATA/gitlab/config:/etc/gitlab'
       - '$DATA/gitlab/logs:/var/log/gitlab'
@@ -286,7 +286,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`gitlabrunner.jiahangchun.icu`)"
+      - "traefik.http.routers.gitlabrunner.rule=Host(`gitlabrunner.jiahangchun.icu`)"
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - '$DATA/gitlab/gitlab-runner-config:/etc/gitlab-runner'
@@ -302,7 +302,7 @@ services:
     container_name: xiaoya
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.weixin.rule=Host(`xiaoya.jiahangchun.icu`)"
+      - "traefik.http.routers.xiaoya.rule=Host(`xiaoya.jiahangchun.icu`)"
     ports:
       - 11111:8080
     environment:
