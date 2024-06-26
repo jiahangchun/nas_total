@@ -251,6 +251,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.weixin.rule=Host(`nexus.jiahangchun.icu`)"
+      - "traefik.http.services.weixin.loadbalancer.server.port=8081"
     networks:
       - traefik
 
