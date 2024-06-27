@@ -233,7 +233,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dsm.rule=Host(`dsm.jiahangchun.icu`)"
-      - "traefik.http.services.nexus.loadbalancer.server.port=5000"
+      - "traefik.http.services.dsm.loadbalancer.server.port=5000"
     ports:
       - 9115:5000
     volumes:
@@ -265,7 +265,9 @@ services:
     image: gitlab/gitlab-ee:latest
     container_name: gitlab
     restart: always
+#   hostname的作用只是为了标注容器名称
 #    hostname: 'gitlab.jiahangchun.icu:9001'
+#   这边gitlab_shell_ssh_port 也不会去打开，仅支持 http接口通讯
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab.jiahangchun.icu:9001'
