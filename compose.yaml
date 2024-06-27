@@ -264,7 +264,7 @@ services:
     image: gitlab/gitlab-ee:latest
     container_name: gitlab
     restart: always
-#    hostname: 'gitlab.jiahangchun.icu:9001'
+    hostname: 'gitlab.jiahangchun.icu:9001'
 #    environment:
 #      GITLAB_OMNIBUS_CONFIG: |
 #        external_url 'http://gitlab.jiahangchun.icu:9001'
