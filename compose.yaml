@@ -276,7 +276,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitlab.rule=Host(`gitlab.jiahangchun.icu`)"
-      - "traefik.http.services.nexus.loadbalancer.server.port=80"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
     volumes:
       - '$DATA/gitlab/config:/etc/gitlab'
       - '$DATA/gitlab/logs:/var/log/gitlab'
