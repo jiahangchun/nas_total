@@ -261,7 +261,7 @@ services:
       - traefik
 
   gitlab:
-    image: gitlab/gitlab-ce:latest
+    image: gitlab/gitlab-ee:latest
     container_name: gitlab
     restart: always
 #    hostname: 'gitlab.jiahangchun.icu'
