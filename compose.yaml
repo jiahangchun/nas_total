@@ -270,13 +270,13 @@ services:
         external_url 'http://gitlab.example.com:8929'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
     ports:
-      - '8929:80'
+      - '8929:8929'
       - '443:443'
       - '2424:22'
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitlab.rule=Host(`gitlab.jiahangchun.icu`)"
-      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=8929"
     volumes:
       - '$DATA/gitlab/config:/etc/gitlab'
       - '$DATA/gitlab/logs:/var/log/gitlab'
