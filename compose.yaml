@@ -260,6 +260,7 @@ services:
     networks:
       - traefik
 
+  # 默认端口是 80 ，但是一旦配置了external_url端口就会自动改变了
   gitlab:
     image: gitlab/gitlab-ee:latest
     container_name: gitlab
@@ -270,13 +271,13 @@ services:
         external_url 'http://gitlab.jiahangchun.icu:9001'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
     ports:
-      - '8929:80'
+      - '8929:9001'
       - '443:443'
       - '2424:22'
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitlab.rule=Host(`gitlab.jiahangchun.icu`)"
-      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=9001"
     volumes:
       - '$DATA/gitlab/config:/etc/gitlab'
       - '$DATA/gitlab/logs:/var/log/gitlab'
