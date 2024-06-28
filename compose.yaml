@@ -250,6 +250,7 @@ services:
     ports:
       - '9116:8081'
       - '9117:9117'
+      - '9118:9118'
     restart: always
     volumes:
       - '/etc/localtime:/etc/localtime'
