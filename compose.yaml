@@ -249,6 +249,7 @@ services:
     container_name: nexus
     ports:
       - '9116:8081'
+      - '9117:9117'
     restart: always
     volumes:
       - '/etc/localtime:/etc/localtime'
